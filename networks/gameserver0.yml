@@ -8,7 +8,7 @@ description: ""
 name: gameserver0
 type: bridge
 used_by:
-- /1.0/instances/gameserver-dummy
+- /1.0/profiles/ad
 managed: true
 status: Created
 locations:

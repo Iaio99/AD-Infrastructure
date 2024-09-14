@@ -8,7 +8,8 @@ description: ""
 name: vulnbox0
 type: bridge
 used_by:
-- /1.0/instances/vulnbox-dummy
+- /1.0/instances/nop-vulnobox
+- /1.0/profiles/ad
 managed: true
 status: Created
 locations:

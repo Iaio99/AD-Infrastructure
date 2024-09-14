@@ -8,7 +8,9 @@ description: ""
 name: team0
 type: bridge
 used_by:
-- /1.0/instances/team-dummy
+- /1.0/instances/nop-vpn
+- /1.0/instances/torvergata
+- /1.0/profiles/ad
 managed: true
 status: Created
 locations:
