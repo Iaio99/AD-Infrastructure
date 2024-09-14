@@ -12,7 +12,7 @@ build {
 
   provisioner "shell" {
     inline  = [
-	"apk add iptables wireguard-tools-wg-quick python"
+	"apk add iptables wireguard-tools-wg-quick python3"
     ]
   }
 }
