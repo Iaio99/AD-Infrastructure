@@ -13,7 +13,7 @@ build {
 
   provisioner "shell" {
     inline  = [
-        "apt install -y sudo python-is-python3 python3"
+        "apt install -y sudo python-is-python3 python3 cron vim tcpdump tmux bash-completion"
     ]
   }
 
