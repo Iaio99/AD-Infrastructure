@@ -1,0 +1,16 @@
+config:
+  ipv4.address: 10.60.255.254/16
+  ipv4.dhcp: "true"
+  ipv4.dhcp.gateway: 10.60.255.254
+  ipv4.nat: "true"
+  ipv6.address: none
+description: ""
+name: vulnbox0
+type: bridge
+used_by:
+- /1.0/instances/vulnbox-dummy
+managed: true
+status: Created
+locations:
+- none
+project: default
