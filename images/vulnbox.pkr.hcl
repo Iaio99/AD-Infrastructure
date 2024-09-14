@@ -2,6 +2,7 @@ source "incus" "vulnbox" {
   image = "images:debian/12"
   output_image = "vulnbox"
   reuse = true
+  profile = "build"
   publish_properties =  {
     description = "Image for the servers where the vulnerable services will be hosted"
   }
