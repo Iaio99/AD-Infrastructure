@@ -3,7 +3,7 @@ source "incus" "wireguard" {
   output_image = "wireguard"
   reuse = true
   publish_properties =  {
-    description = "Trivial repackage with Packer"
+    description = "Image for the VPNs servers that will give access to the players"
   }
 }
 
