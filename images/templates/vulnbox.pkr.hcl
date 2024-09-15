@@ -21,6 +21,6 @@ build {
   }
 
   provisioner "shell" {
-    script = "./install_docker.sh"
+    script = "scripts/install_docker.sh"
   }
 }
