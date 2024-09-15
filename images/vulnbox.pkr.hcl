@@ -13,7 +13,8 @@ build {
 
   provisioner "shell" {
     inline  = [
-        "apt install -y sudo python-is-python3 python3 cron vim tcpdump tmux bash-completion"
+        "apt install -y sudo python-is-python3 python3 cron vim tcpdump tmux bash-completion openssh-server",
+        "sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config"
     ]
   }
 
