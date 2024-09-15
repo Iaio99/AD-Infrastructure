@@ -1,9 +1,6 @@
 # AD-Infrastructure
 
 ## TO DO
-### Immagini
-Utilità di sistema per le vulnboxes
-Utilità di sistema per il gameserver
 
 ### Deployment
 Modulo ansible per creare reti lxd/incus
