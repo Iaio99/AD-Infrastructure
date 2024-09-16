@@ -1,0 +1,4 @@
+- name: Configure AD infrastructure
+  import_playbook: gameserver.yml
+  import_playbook: vpns.yml
+  import_playbook: vulnboxes.yml
