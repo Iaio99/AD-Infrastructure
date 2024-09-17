@@ -3,13 +3,11 @@
 ## TO DO
 
 ### Deployment
-Modulo ansible per creare reti lxd/incus
-Playbook per il build delle immagini
-Playbook per la creazione delle reti di gara
 Playbook per la configurazione delle vpn con wireguard
 Playbook per la configurazione del gameserver
 Playbook per la configurazione delle vulnboxes
 Master playbook
+Scrivere documentazione
 
 ## Tests
 VPN - check
