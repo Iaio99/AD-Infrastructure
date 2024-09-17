@@ -13,7 +13,7 @@ build {
 
   provisioner "shell" {
     inline  = [
-        "apt install -y python3 bash-completion openssh-server"
+        "apt-get install -y python3 bash-completion openssh-server"
     ]
   }
 }
