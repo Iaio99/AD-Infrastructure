@@ -4,7 +4,7 @@ source "incus" "wireguard" {
   reuse = true
   profile = "build"
   publish_properties =  {
-    description = "Image for the VPNs servers that will give access to the players"
+    description = "Image for the VPNs servers that will give access to the players to the infrastructure"
   }
 }
 
@@ -13,7 +13,7 @@ build {
 
   provisioner "shell" {
     inline  = [
-	"apk add iptables wireguard-tools-wg-quick python3 bash-completion"
+	    "apk add iptables wireguard-tools-wg-quick python3 bash-completion"
     ]
   }
 }
