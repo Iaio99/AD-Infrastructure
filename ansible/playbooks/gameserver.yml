@@ -1,3 +1,33 @@
 - name: Configure gameserver
   hosts: gameserver
+  
   tasks:
+    - name: Install apache
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+
+    - name: Copy apache configuration
+      template:
+        src: ../files/gameserver/gameserver.conf.j2
+        dest: "/etc/apache2/sites-available/gameserver.conf"
+
+    - name: Enable new site
+      shell: /usr/sbin/a2ensite gameserver
+      notify: Reload Apache
+
+    - name: Disable default Apache site
+      shell: /usr/sbin/a2dissite 000-default
+      notify: Reload Apache
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
