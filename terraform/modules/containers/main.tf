@@ -26,6 +26,9 @@ resource "incus_instance" "vulnbox" {
 
   config = {
     "boot.autostart" = true
+    "security.nesting" = true
+    "security.syscalls.intercept.mknod" = true
+    "security.syscalls.intercept.setxattr" = true
   }
 
   device {

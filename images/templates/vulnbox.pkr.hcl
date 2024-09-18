@@ -6,6 +6,11 @@ source "incus" "vulnbox" {
   publish_properties =  {
     description = "Image for the servers where the vulnerable services will be hosted"
   }
+  launch_config = {
+    "security.nesting" = true
+    "security.syscalls.intercept.mknod" = true
+    "security.syscalls.intercept.setxattr" = true
+  }
 }
 
 build {
@@ -21,7 +26,20 @@ build {
     ]
   }
 
+  provisioner "file" {
+    source = "${path.root}/../files/services/"
+    destination = "/root"
+  }
+
+  provisioner "shell" {
+    inline = ["chown -R root:root /root"]
+  }
+
   provisioner "shell" {
     script = "${path.root}/../scripts/install_docker.sh"
+  }
+
+  provisioner "shell" {
+    script = "${path.root}/../scripts/setup_services.sh"
   }
 }
