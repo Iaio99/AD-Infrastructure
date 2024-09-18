@@ -40,5 +40,6 @@ terraform.rc
 teams.json
 
 out/*
-ansible/files/vulnboxes/services/*
+images/files/services/*
 !**/.gitkeep
+ansible/inventory.ini
