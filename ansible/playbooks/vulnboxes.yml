@@ -1,3 +1,46 @@
 - name: Configure vulnboxes
   hosts: vulnboxes
   tasks:
+
+    - name: Restarting docker service
+      systemd_service:
+        name: docker
+        state: restarted
+    
+#    - name: Copy host ssh-key
+#      authorized_key:
+#        user: root
+#        key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
+    
+    - name: Permit root login with password
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: "PermitRootLogin yes"
+        state: present
+        backup: yes
+    
+    - name: Restart sshd
+      systemd_service:
+        name: sshd
+        state: restarted
+
+    - name: Create random password
+      ansible.builtin.set_fact:
+        root_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
+
+    - name: Set the generated password as root password
+      user:
+        name: root
+        password: "{{ root_password | password_hash('sha512') }}"
+
+    - name:
+      set_fact:
+        remote_hostname: "{{ ansible_hostname }}"
+
+    - name: Save the password to a local file
+      local_action:
+        module: copy
+        content: "{{ root_password }}\n"
+        dest: "../../out/passwords/{{ remote_hostname }}.txt"
+    
