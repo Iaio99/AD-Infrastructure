@@ -1,6 +1,6 @@
 #!/bin/sh
 
 packer build images/templates
-cd infrastructure
+cd terraform
 terraform init
 terraform apply
