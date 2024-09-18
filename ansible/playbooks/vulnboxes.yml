@@ -1,12 +1,6 @@
 - name: Configure vulnboxes
   hosts: vulnboxes
   tasks:
-
-    - name: Restarting docker service
-      systemd_service:
-        name: docker
-        state: restarted
-    
 #    - name: Copy host ssh-key
 #      authorized_key:
 #        user: root
