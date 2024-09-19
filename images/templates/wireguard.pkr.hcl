@@ -13,7 +13,8 @@ build {
 
   provisioner "shell" {
     inline  = [
-	    "apk add iptables wireguard-tools-wg-quick python3 bash-completion"
+	    "apk add iptables wireguard-tools-wg-quick python3 bash-completion",
+      "mkdir /etc/wireguard"
     ]
   }
 }
