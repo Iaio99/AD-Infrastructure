@@ -1,4 +1,14 @@
-- name: Configure AD infrastructure
-  import_playbook: gameserver.yml
+- name: Begin
+  hosts: localhost
+  tasks:
+  - name: "Delete output directory"
+    local_action:
+      module: file
+      path: "../out"
+      state: absent
+
+  #  import_playbook: gameserver.yml
+- name: Configure vpn infrastructure
   import_playbook: vpns.yml
+- name: Configure vulnboxes
   import_playbook: vulnboxes.yml

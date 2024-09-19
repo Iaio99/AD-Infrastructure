@@ -28,13 +28,15 @@
         name: root
         password: "{{ root_password | password_hash('sha512') }}"
 
-    - name:
-      set_fact:
-        remote_hostname: "{{ ansible_hostname }}"
+    - name: Create Output Direcotry
+      local_action:
+        module: file
+        path: "../out/passwords/"
+        state: directory
 
     - name: Save the password to a local file
       local_action:
         module: copy
         content: "{{ root_password }}\n"
-        dest: "../out/passwords/{{ remote_hostname }}.txt"
+        dest: "../out/passwords/{{ inventory_hostname }}.txt"
     
