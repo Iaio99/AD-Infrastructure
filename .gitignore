@@ -39,7 +39,7 @@ terraform.rc
 **/.terraform.lock.hcl
 teams.json
 
-out/*
+**/out
 images/files/services/*
 !**/.gitkeep
 ansible/inventory.ini
