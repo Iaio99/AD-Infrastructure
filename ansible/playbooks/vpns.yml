@@ -5,12 +5,12 @@
       local_action:
         module: file
         state: absent
-        path: "../../out/vpn/{{ inventory_hostname }}/"
+        path: "../out/vpn/{{ inventory_hostname }}/"
 
     - name: "Create output folder"
       local_action:
         module: file
-        path: "../../out/vpn/{{ inventory_hostname }}"
+        path: "../out/vpn/{{ inventory_hostname }}"
         state: directory
         recurse: yes
 

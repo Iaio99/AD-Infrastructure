@@ -36,5 +36,5 @@
       local_action:
         module: copy
         content: "{{ root_password }}\n"
-        dest: "../../out/passwords/{{ remote_hostname }}.txt"
+        dest: "../out/passwords/{{ remote_hostname }}.txt"
     
