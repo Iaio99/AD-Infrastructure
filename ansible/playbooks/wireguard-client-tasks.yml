@@ -1,0 +1,29 @@
+- name: Generate client private key
+  shell: wg genkey
+  register: client_private_key
+
+- name: Generate client public key
+  shell: "echo -n '{{ client_private_key.stdout }}' | wg pubkey"
+  register: client_public_key
+
+- name: Set client Address
+  set_fact:
+    client_address: "{{ ansible_default_ipv4.address[:-3] }}{{ item }}"
+
+- name: "Generate client configuration"
+  local_action:
+    module: template
+    src: ../templates/wg0_client.conf.j2
+    mode: 0600
+    dest: "../../out/vpn/{{ inventory_hostname }}/player{{ item }}.conf"
+    force: true
+
+- name: "Add peer to the server"
+  blockinfile:
+    path: /etc/wireguard/wg0.conf
+    append_newline: true
+    block: |
+      [Peer]
+      PublicKey = {{ client_public_key.stdout }}
+      AllowedIPs = {{ client_address }}/32"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item }}"
