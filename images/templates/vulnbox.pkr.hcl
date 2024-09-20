@@ -3,9 +3,11 @@ source "incus" "vulnbox" {
   output_image = "vulnbox"
   reuse = true
   profile = "build"
+
   publish_properties =  {
     description = "Image for the servers where the vulnerable services will be hosted"
   }
+
   launch_config = {
     "security.nesting" = true
     "security.syscalls.intercept.mknod" = true
