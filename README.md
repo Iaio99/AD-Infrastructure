@@ -3,11 +3,14 @@
 ## TO DO
 
 ### Deployment
-Playbook per la configurazione delle vpn con wireguard
+Strutturare le configurazioni
 Playbook per la configurazione del gameserver
-Playbook per la configurazione delle vulnboxes
-Master playbook
 Scrivere documentazione
+
+### Configurazioni
+Tipo: VM o Container (bool)
+Teams: Lista di stringhe
+
 
 ## Tests
 VPN - check
