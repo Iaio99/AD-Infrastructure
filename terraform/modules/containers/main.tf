@@ -15,6 +15,8 @@ resource "incus_instance" "gameserver" {
   config = {
     "boot.autostart" = true
   }
+
+  type = var.instance_type
 }
 
 resource "incus_instance" "vulnbox" {
@@ -40,6 +42,8 @@ resource "incus_instance" "vulnbox" {
       "ipv4.address" = "10.60.${count.index}.1"
     }
   }
+  
+  type = var.instance_type
 }
 
 resource "incus_instance" "vpn" {
@@ -73,4 +77,6 @@ resource "incus_instance" "vpn" {
   }
 
   wait_for_network = false
+
+  type = var.instance_type
 }
