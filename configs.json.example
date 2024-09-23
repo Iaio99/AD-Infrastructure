@@ -1,0 +1,8 @@
+{
+        "teams" : [
+        ],
+
+        "project": "deafult",
+        "instances_type": "container",
+        "network_type": "bridge"
+}
