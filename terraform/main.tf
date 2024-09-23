@@ -28,8 +28,8 @@ module "networks" {
   ]
 }
 
-module "containers" {  
-  source = "./modules/containers"
+module "instances" {  
+  source = "./modules/instances"
   project_name = var.project_name
   instance_type = local.config["instances_type"]
   depends_on = [module.networks, module.profile]
