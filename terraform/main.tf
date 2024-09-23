@@ -1,11 +1,17 @@
+locals {
+  config = jsondecode(file(var.config_file))
+}
+
 module "profile" {
   source = "./modules/profile"
+  project_name = var.project_name
   depends_on = [module.networks]
 }
 
 module "networks" {
   source = "./modules/networks"
-  
+  project_name = var.project_name
+
   networks = [
     {
       name = "vulnbox0"
@@ -22,8 +28,10 @@ module "networks" {
   ]
 }
 
-module "containers" {
+module "containers" {  
   source = "./modules/containers"
+  project_name = var.project_name
+  instance_type = local.config["instances_type"]
   depends_on = [module.networks, module.profile]
-  teams = concat(["nop"], jsondecode(file(var.teams_file)))
+  teams = concat(["nop"], local.config["teams"])
 }
