@@ -28,6 +28,28 @@ def main():
             }
         },
 
+        "gameserver": {
+            "hosts": ["gameserver"],
+            "vars": {
+                "ctf_gameserver_downloadpath": "file:///root/",
+                "ctf_gameserver_db_pass_web": "password",
+                "ctf_gameserver_db_pass_controller": "password",
+                "ctf_gameserver_db_pass_submission": "password",
+                "ctf_gameserver_db_pass_checker": "password",
+                "ctf_gameserver_db_pass_vpnstatus": "password",
+                "ctf_gameserver_web_admin_email": "admin@example.org",
+                "ctf_gameserver_web_admin_pass": "admin",
+                "ctf_gameserver_web_from_email": "sender@example.org",
+                "ctf_gameserver_web_secret_key": "ZytYXi50TV9NSmtiQjlpTXh1WkNYKzI4fnQxXytYLzk=",
+                "ctf_gameserver_web_timezone": "Europe/Rome",
+                "ctf_gameserver_checker_ippattern": "10.60.%.1",
+                "ctf_gameserver_flag_secret": "WHc5fF8jV2dnUnB5bS1mXS48KD1BfTdRLTtRYihAfFA=",
+                "ctf_gameserver_submission_listen_host": "0.0.0.0",
+                "ctf_gameserver_submission_listen_ports": [8080],
+                "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", "192.168.142.111"]
+            }
+        },
+
         "all": {
             "vars": {
                 "ansible_connection": "community.general.incus",
