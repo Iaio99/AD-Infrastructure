@@ -28,7 +28,7 @@
 
     - name: "Generate server configuration"
       template:
-        src: ../templates/wg0_server.conf.j2
+        src: ../templates/vpns/wg0_server.conf.j2
         mode: 0600
         dest: /etc/wireguard/wg0.conf
 

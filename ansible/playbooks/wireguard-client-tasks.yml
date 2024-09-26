@@ -13,7 +13,7 @@
 - name: "Generate client configuration"
   local_action:
     module: template
-    src: ../templates/wg0_client.conf.j2
+    src: ../templates/vpns/wg0_client.conf.j2
     mode: 0600
     dest: "../out/vpn/{{ inventory_hostname }}/player{{ item }}.conf"
     force: true
