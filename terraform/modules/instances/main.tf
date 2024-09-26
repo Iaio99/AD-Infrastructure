@@ -12,6 +12,15 @@ resource "incus_instance" "gameserver" {
     }
   }
 
+  device {
+    name = "http-proxy"
+    type = "proxy"
+    properties = {
+      listen = "udp:0.0.0.0:80"
+      connect = "udp:10.10.0.1:80"
+    }
+  }
+
   config = {
     "boot.autostart" = true
   }
