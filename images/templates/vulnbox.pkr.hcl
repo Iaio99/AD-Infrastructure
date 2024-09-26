@@ -25,7 +25,7 @@ build {
       "sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config",
       "sed -i 's/^Name=eth0/Name=game0/' /etc/systemd/network/eth0.network",
       "rename.ul eth0 game0 /etc/systemd/network/eth0.network",
-      "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config"
+      "echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config"
     ]
   }
 
