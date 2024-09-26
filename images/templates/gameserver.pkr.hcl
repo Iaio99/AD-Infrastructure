@@ -18,12 +18,14 @@ build {
       "apt-get update -y",
       "apt-get install -y apt-utils",
       "apt-get upgrade -y",
-      "apt-get install -y python3 bash-completion openssh-server sudo python-is-python3 devscripts dpkg-dev equivs nginx uwsgi uwsgi-plugin-python3",
+      "apt-get install -y python3 bash-completion openssh-server sudo python-is-python3 nginx uwsgi uwsgi-plugin-python3",
+      "apt-get install -y devscripts dpkg-dev equivs",
       "git clone https://github.com/fausecteam/ctf-gameserver.git /tmp/ctf-gameserver",
       "cd /tmp/ctf-gameserver",
       "mk-build-deps --install debian/control --tool 'apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y'",
       "dpkg-buildpackage --unsigned-changes --unsigned-buildinfo",
-      "mv gameserver_1.0_all.deb /root",
+      "mv ../ctf-gameserver_1.0_all.deb /root",
+      "apt-get purge -y devscripts dpkg-dev equivs"
     ]
   }
 }
