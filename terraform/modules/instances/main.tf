@@ -16,8 +16,8 @@ resource "incus_instance" "gameserver" {
     name = "http-proxy"
     type = "proxy"
     properties = {
-      listen = "udp:0.0.0.0:80"
-      connect = "udp:10.10.0.1:80"
+      listen = "tcp:0.0.0.0:80"
+      connect = "tcp:10.10.0.1:80"
     }
   }
 
