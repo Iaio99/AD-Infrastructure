@@ -6,5 +6,5 @@ terraform destroy
 terraform init
 terraform apply
 cd ../ansible
-ansible-playbook playbook/master.yml
+ansible-playbook playbooks/master.yml
 cd ..
