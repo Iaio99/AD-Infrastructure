@@ -27,11 +27,11 @@
         state: absent
 
     - name: Restart Nginx
-      systemctl:
+      systemd_service:
         name: nginx
         state: restarted
 
     - name: Restart Uwsgi
-      systemctl:
+      systemd_service:
         name: uwsgi
         state: restarted
