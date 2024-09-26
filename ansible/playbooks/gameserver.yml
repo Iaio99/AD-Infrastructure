@@ -1,33 +1,37 @@
 - name: Configure gameserver
   hosts: gameserver
   
+  roles:
+    - fausecteam.ctf_gameserver_ansible.db_prolog
+    - fausecteam.ctf_gameserver_ansible.web
+    - fausecteam.ctf_gameserver_ansible.db_epilog
+    - fausecteam.ctf_gameserver_ansible.controller
+    - fausecteam.ctf_gameserver_ansible.submission
+    - fausecteam.ctf_gameserver_ansible.checker
+    - fausecteam.ctf_gameserver_ansible.vpnstatus
+
   tasks:
-    - name: Install apache
-      apt:
-        name: apache2
-        state: latest
-        update_cache: yes
-
-    - name: Copy apache configuration
+    - name: Upload uwsgi configuration
       template:
-        src: ../files/gameserver/gameserver.conf.j2
-        dest: "/etc/apache2/sites-available/gameserver.conf"
+        src: "../templates/gameserver/ctf-gameserver.ini"
+        dest: "/etc/uwsgi/apps-enabled/"
 
-    - name: Enable new site
-      shell: /usr/sbin/a2ensite gameserver
-      notify: Reload Apache
+    - name: Upload nginx configuration
+      template:
+        src: ../templates/gameserver/gameserver.conf.j2
+        dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
 
-    - name: Disable default Apache site
-      shell: /usr/sbin/a2dissite 000-default
-      notify: Reload Apache
+    - name:
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
 
-  handlers:
-    - name: Reload Apache
-      service:
-        name: apache2
-        state: reloaded
+    - name: Restart Nginx
+      systemctl:
+        name: nginx
+        state: restarted
 
-    - name: Restart Apache
-      service:
-        name: apache2
+    - name: Restart Uwsgi
+      systemctl:
+        name: uwsgi
         state: restarted
