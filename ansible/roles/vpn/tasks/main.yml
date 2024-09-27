@@ -31,11 +31,11 @@
 
 - name: "Set endpoint"
   set_fact:
-    endpoint: "{{ endpoint_address }}:{{ 51820 + ansible_play_hosts_all.index(inventory_hostname) }}"
+    endpoint: "{{ vpn_endpoint_address }}:{{ 51820 + ansible_play_hosts_all.index(inventory_hostname) }}"
 
 - name: Clients configuration
   include_tasks: wireguard-client-tasks.yml
-  loop: "{{ range(2, players + 2) | list }}"
+  loop: "{{ range(2, vpn_players + 2) | list }}"
 
 - name: "Add server configuration to network"
   blockinfile:
