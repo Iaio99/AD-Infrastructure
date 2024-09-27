@@ -45,6 +45,4 @@
       auto wg0
       iface wg0 inet static
       pre-up wg-quick up /etc/wireguard/wg0.conf
-    
-- name: "Start wireguard server"
-  shell: "service networking restart"
+  notify: Restart networking service
