@@ -49,6 +49,12 @@ def main():
                 "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", "192.168.142.111"]
             }
         },
+        "all": {
+            "vars": {
+                "ansible_connection": "community.general.incus",
+                "ansible_remote": 'local'
+            }
+        }
     }
 
     print(json.dumps(inventory, indent=2))

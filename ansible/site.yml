@@ -1,0 +1,11 @@
+#- hosts: gameserver
+#  roles:
+#    - gameserver
+
+- hosts: vulnboxes
+  roles:
+    - vulnbox
+
+- hosts: vpns
+  roles:
+    - vpn
