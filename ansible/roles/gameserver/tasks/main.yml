@@ -1,6 +1,6 @@
-- name: Execute fausecteam roles
+- name: Install Fauscteam Gameserver
   include_role:
-    name: "{{ item }}"
+    name: "{{ faus_role }}"
   loop:
     - fausecteam.ctf_gameserver_ansible.db_prolog
     - fausecteam.ctf_gameserver_ansible.web
@@ -9,15 +9,18 @@
     - fausecteam.ctf_gameserver_ansible.submission
     - fausecteam.ctf_gameserver_ansible.checker
     - fausecteam.ctf_gameserver_ansible.vpnstatus
+  loop_control:
+    loop_var: "faus_role"
 
 - name: Upload uwsgi configuration
   template:
-    src: "../files/gameserver/ctf-gameserver.ini"
+    src: "files/ctf-gameserver.ini"
     dest: "/etc/uwsgi/apps-enabled/"
+  notify: Restart Uwsgi
 
 - name: Upload nginx configuration
   template:
-    src: ../files/gameserver/ctf-gameserver.conf
+    src: "files/ctf-gameserver.conf"
     dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
 
 - name: Delete default conf nginx
@@ -25,4 +28,3 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: Restart Nginx
-  notify: Restart Uwsgi

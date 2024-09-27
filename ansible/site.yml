@@ -1,6 +1,6 @@
-#- hosts: gameserver
-#  roles:
-#    - gameserver
+- hosts: gameserver
+  roles:
+    - gameserver
 
 - hosts: vulnboxes
   roles:

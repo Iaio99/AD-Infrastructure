@@ -9,7 +9,7 @@ def main():
         teams = json.load(f)["teams"]
 
     vulnboxes = ["nop-vulnbox"]
-    vpns = ["nop-vpn"]
+    vpns = []
 
     for t in teams:
         vulnboxes.append(t+"-vulnbox")
@@ -24,7 +24,7 @@ def main():
             "hosts": vpns,
             "vars": {
                 "endpoint_address": "192.168.142.111",
-                "players": 6
+                "vpn_players": 6
             }
         },
 
@@ -46,6 +46,7 @@ def main():
                 "ctf_gameserver_flag_secret": "WHc5fF8jV2dnUnB5bS1mXS48KD1BfTdRLTtRYihAfFA=",
                 "ctf_gameserver_submission_listen_host": "0.0.0.0",
                 "ctf_gameserver_submission_listen_ports": [8080],
+                "ctf_gameserver_db_user_vpnstatus": "gameserver_vpnstatus",
                 "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", "192.168.142.111"]
             }
         },
