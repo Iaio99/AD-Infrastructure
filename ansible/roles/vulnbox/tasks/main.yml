@@ -1,12 +1,12 @@
-- name: Copy host ssh-key
-  authorized_key:
-    user: root
-    key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
+#- name: Copy host ssh-key
+#  authorized_key:
+#    user: root
+#    key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
 
-- name: Restart sshd
-  systemd_service:
-    name: sshd
-    state: restarted
+#- name: Restart sshd
+#  systemd_service:
+#    name: sshd
+#    state: restarted
 
 - name: Create random password
   ansible.builtin.set_fact:
@@ -20,12 +20,12 @@
 - name: Create Output Direcotry
   local_action:
     module: file
-    path: "../out/passwords/"
+    path: "{{ vulnboxes_password_output_directory }}"
     state: directory
 
 - name: Save the password to a local file
   local_action:
     module: copy
     content: "{{ root_password }}\n"
-    dest: "../out/passwords/{{ inventory_hostname }}.txt"
+    dest: "{{ vulnboxes_password_output_directory }} {{ inventory_hostname }}.txt"
     
