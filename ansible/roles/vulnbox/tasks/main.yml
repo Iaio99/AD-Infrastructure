@@ -3,11 +3,6 @@
 #    user: root
 #    key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
 
-#- name: Restart sshd
-#  systemd_service:
-#    name: sshd
-#    state: restarted
-
 - name: Create random password
   ansible.builtin.set_fact:
     root_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
