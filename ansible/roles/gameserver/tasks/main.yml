@@ -1,7 +1,7 @@
-- name: Configure gameserver
-  hosts: gameserver
-  
-  roles:
+- name: Execute fausecteam roles
+  include_role:
+    name: "{{ item }}"
+  loop:
     - fausecteam.ctf_gameserver_ansible.db_prolog
     - fausecteam.ctf_gameserver_ansible.web
     - fausecteam.ctf_gameserver_ansible.db_epilog
@@ -10,28 +10,19 @@
     - fausecteam.ctf_gameserver_ansible.checker
     - fausecteam.ctf_gameserver_ansible.vpnstatus
 
-  tasks:
-    - name: Upload uwsgi configuration
-      template:
-        src: "../templates/gameserver/ctf-gameserver.ini"
-        dest: "/etc/uwsgi/apps-enabled/"
+- name: Upload uwsgi configuration
+  template:
+    src: "../files/gameserver/ctf-gameserver.ini"
+    dest: "/etc/uwsgi/apps-enabled/"
 
-    - name: Upload nginx configuration
-      template:
-        src: ../templates/gameserver/gameserver.conf.j2
-        dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
+- name: Upload nginx configuration
+  template:
+    src: ../files/gameserver/ctf-gameserver.conf
+    dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
 
-    - name:
-      file:
-        path: /etc/nginx/sites-enabled/default
-        state: absent
-
-    - name: Restart Nginx
-      systemd_service:
-        name: nginx
-        state: restarted
-
-    - name: Restart Uwsgi
-      systemd_service:
-        name: uwsgi
-        state: restarted
+- name: Delete default conf nginx
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Restart Nginx
+  notify: Restart Uwsgi
