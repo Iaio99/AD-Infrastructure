@@ -1,53 +1,50 @@
-- name: Configure vpn servers
-  hosts: vpns
-  tasks:
-    - name: "Delete existing output folder"
-      local_action:
-        module: file
-        state: absent
-        path: "../out/vpn/{{ inventory_hostname }}/"
+- name: "Delete existing output folder"
+  local_action:
+    module: file
+    state: absent
+    path: "../out/vpn/{{ inventory_hostname }}/"
 
-    - name: "Create output folder"
-      local_action:
-        module: file
-        path: "../out/vpn/{{ inventory_hostname }}"
-        state: directory
-        recurse: yes
+- name: "Create output folder"
+  local_action:
+    module: file
+    path: "../out/vpn/{{ inventory_hostname }}"
+    state: directory
+    recurse: yes
 
-    - name: "Set vpn server address"
-      set_fact:
-        server_address: "{{ ansible_default_ipv4.address[:-3] }}1"
+- name: "Set vpn server address"
+  set_fact:
+    server_address: "{{ ansible_default_ipv4.address[:-3] }}1"
 
-    - name: Generate server private key
-      shell: wg genkey
-      register: server_private_key
+- name: Generate server private key
+  shell: wg genkey
+  register: server_private_key
 
-    - name: Generate server public key
-      shell: "echo -n '{{ server_private_key.stdout }}' | wg pubkey"
-      register: server_public_key
+- name: Generate server public key
+  shell: "echo -n '{{ server_private_key.stdout }}' | wg pubkey"
+  register: server_public_key
 
-    - name: "Generate server configuration"
-      template:
-        src: ../templates/vpns/wg0_server.conf.j2
-        mode: 0600
-        dest: /etc/wireguard/wg0.conf
+- name: "Generate server configuration"
+  template:
+    src: ../templates/vpns/wg0_server.conf.j2
+    mode: 0600
+    dest: /etc/wireguard/wg0.conf
 
-    - name: "Set endpoint"
-      set_fact:
-        endpoint: "{{ endpoint_address }}:{{ 51820 + ansible_play_hosts_all.index(inventory_hostname) }}"
+- name: "Set endpoint"
+  set_fact:
+    endpoint: "{{ endpoint_address }}:{{ 51820 + ansible_play_hosts_all.index(inventory_hostname) }}"
 
-    - name: Clients configuration
-      include_tasks: wireguard-client-tasks.yml
-      loop: "{{ range(2, players + 2) | list }}"
+- name: Clients configuration
+  include_tasks: wireguard-client-tasks.yml
+  loop: "{{ range(2, players + 2) | list }}"
 
-    - name: "Add server configuration to network"
-      blockinfile:
-        path: /etc/network/interfaces
-        append_newline: true
-        block: |
-          auto wg0
-          iface wg0 inet static
-          pre-up wg-quick up /etc/wireguard/wg0.conf
+- name: "Add server configuration to network"
+  blockinfile:
+    path: /etc/network/interfaces
+    append_newline: true
+    block: |
+      auto wg0
+      iface wg0 inet static
+      pre-up wg-quick up /etc/wireguard/wg0.conf
     
-    - name: "Start wireguard server"
-      shell: "service networking restart"
+- name: "Start wireguard server"
+  shell: "service networking restart"

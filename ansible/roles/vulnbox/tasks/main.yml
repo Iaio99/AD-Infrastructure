@@ -1,33 +1,31 @@
-- name: Configure vulnboxes
-  hosts: vulnboxes
-  tasks:
-#    - name: Copy host ssh-key
-#      authorized_key:
-#        user: root
-#        key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
-    - name: Restart sshd
-      systemd_service:
-        name: sshd
-        state: restarted
+- name: Copy host ssh-key
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', '/home/' + lookup('env', 'USER') + '/.ssh/id_rsa.pub') }}"
 
-    - name: Create random password
-      ansible.builtin.set_fact:
-        root_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
+- name: Restart sshd
+  systemd_service:
+    name: sshd
+    state: restarted
 
-    - name: Set the generated password as root password
-      user:
-        name: root
-        password: "{{ root_password | password_hash('sha512') }}"
+- name: Create random password
+  ansible.builtin.set_fact:
+    root_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
 
-    - name: Create Output Direcotry
-      local_action:
-        module: file
-        path: "../out/passwords/"
-        state: directory
+- name: Set the generated password as root password
+  user:
+    name: root
+    password: "{{ root_password | password_hash('sha512') }}"
 
-    - name: Save the password to a local file
-      local_action:
-        module: copy
-        content: "{{ root_password }}\n"
-        dest: "../out/passwords/{{ inventory_hostname }}.txt"
+- name: Create Output Direcotry
+  local_action:
+    module: file
+    path: "../out/passwords/"
+    state: directory
+
+- name: Save the password to a local file
+  local_action:
+    module: copy
+    content: "{{ root_password }}\n"
+    dest: "../out/passwords/{{ inventory_hostname }}.txt"
     
