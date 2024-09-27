@@ -2,12 +2,12 @@
   local_action:
     module: file
     state: absent
-    path: "../out/vpn/{{ inventory_hostname }}/"
+    path: "{{ vpn_client_files_output_directory }}/{{ inventory_hostname }}/"
 
 - name: "Create output folder"
   local_action:
     module: file
-    path: "../out/vpn/{{ inventory_hostname }}"
+    path: "{{ vpn_client_files_output_directory }}/{{ inventory_hostname }}"
     state: directory
     recurse: yes
 
@@ -25,7 +25,7 @@
 
 - name: "Generate server configuration"
   template:
-    src: ../templates/vpns/wg0_server.conf.j2
+    src: wg0_server.conf.j2
     mode: 0600
     dest: /etc/wireguard/wg0.conf
 

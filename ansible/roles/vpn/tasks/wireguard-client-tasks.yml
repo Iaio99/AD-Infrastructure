@@ -13,9 +13,9 @@
 - name: "Generate client configuration"
   local_action:
     module: template
-    src: ../templates/vpns/wg0_client.conf.j2
+    src: wg0_client.conf.j2
     mode: 0600
-    dest: "../out/vpn/{{ inventory_hostname }}/player{{ item }}.conf"
+    dest: "{{ vpn_client_files_output_directory }}/{{ inventory_hostname }}/player{{ item }}.conf"
     force: true
 
 - name: "Add peer to the server"
