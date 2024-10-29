@@ -1,8 +1,25 @@
 {
-        "teams" : [
-        ],
+        "ad-platform": {
+                "teams" : [
+                        "team1",
+                        "team2",
+                        "team3"
+                ],
+                "subnet_ip": {
+                        "gameserver-network": "network",
+                        "vulnboxes-network": "network",
+                        "vpn-servers-networks": "network"
+                }
+        },
+        "incus-cluster": {
+                "nodes": [],
+                "project": "deafult",
+                "instances_type": "container",
 
-        "project": "deafult",
-        "instances_type": "container",
-        "network_type": "bridge"
+                "player_number": 6,
+                "remote": "local://"
+        },
+        "packer": {
+                "service_folder": "/path/to/services"
+        }
 }
