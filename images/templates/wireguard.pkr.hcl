@@ -2,7 +2,6 @@ source "incus" "wireguard" {
   image = "images:alpine/3.20"
   output_image = "wireguard"
   reuse = true
-  profile = "build"
 
   publish_properties =  {
     description = "Image for the VPNs servers that will give access to the players to the infrastructure"
