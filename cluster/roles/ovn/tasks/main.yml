@@ -1,0 +1,32 @@
+- name: "Choose packages"
+  set_fact: 
+    ovn-host: "{{ 'openvswitch-ovn-host' if ansible_os_family == 'Suse' else 'ovn-host' }}"
+    ovn-central: "{{ 'openvswitch-ovn-central' if ansible_os_family == 'Suse' else 'ovn-central' }}"
+
+- name: Install ovn packages
+  package:
+    name:
+      - ovn-host
+      - ovn-central
+    state: latest
+  notify: Stop ovn-central
+
+- name: Set local as current host
+  set_fact:
+    local: "{{ inventory_hostname }}"
+
+- name: Set up bootstrap server
+  template:
+    src: templates/bootstrap-ovn-central.conf.j2
+    dest: /etc/default/ovn-central
+    notify: Start ovn-central
+
+- name: Set up server 2 and 3
+  template:
+    src: templates/ovn-central.conf.j2
+    dest: /etc/default/ovn-central
+    notify: Start ovn-central
+
+- name: Configure Open vSwitch
+  command: 
+    cmd: "sudo ovs-vsctl set open_vswitch . external_ids:ovn-remote=tcp:{{ server_1 }}:6642,tcp:{{ server_2 }}:6642,tcp:{{ server_3 }}:6642 external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip={{ local }}"
