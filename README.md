@@ -1,19 +1,25 @@
 # AD-Infrastructure
 
-## TO DO
+## Settings
+The configuration file (configs.json) is divided in 3 sections:
+- ad-platform
+- incus-cluster
+- packer
 
-### Deployment
-Strutturare le configurazioni
-Playbook per la configurazione del gameserver
-Scrivere documentazione
+### ad-platform section
+The ad-platform section has two config that must be specified:
+- teams: list. It's a list of the team's names that will partecipate to the competion.
+- subnet_ip: dict. It's a dictionary containing that must contain the following keys:
+    * gameserver-network
+    * vulnboxes-network
+    * vpn-servers-network
 
-### Configurazioni
-Tipo: VM o Container (bool)
-Teams: Lista di stringhe
+Every key must be associated with a correct subnet (e.g. 10.0.12.0/24)
 
-
-## Tests
-VPN - check
-Traffico tra le squadre bloccato - check
-Raggiungibilità tra container in reti diverse - check
-NAT verso le vulnbox - check
+### incus-cluster section
+The incus cluster section has the following keys:
+- nodes: list. The list of nodes that will compose the cluster. If only one node is specified then it will set up everything on the server, without creating a cluster
+- project: string. Name of the incus project
+- instances_type: string. Type of the incus instance. It must be container or virtual-machine
+- player_number: int. Number of players for team.
+- remote: string. Incus remote
