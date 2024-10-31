@@ -1,9 +1,0 @@
-- name: Stop opvn-central
-  systemd-service:
-    name: ovn-central
-    state: stopped
-
-- name: Start opvn-central
-  systemd-service:
-    name: ovn-central
-    state: started
