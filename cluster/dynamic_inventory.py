@@ -15,25 +15,48 @@ def main():
         hosts.append(n)
         ovn_hosts.append(nodes[n])
 
-    inventory = {
-        "nodes": {
-            "hosts": hosts
-        },
+    if len(nodes) == 2:
+        raise Exception "Cluster dimension cannot be 2"
 
-        "ovn_hosts": {
-            "hosts": ovn_hosts,
-            "vars": {
-                "server_1": ovn_hosts[0],
-                "server_2": ovn_hosts[1],
-                "server_3": ovn_hosts[2]
-            }
-        },
-        "all": {
-            "vars": {
-                "ansible_connection": "ssh",
+    if len(nodes) == 1:
+        inventory = {
+            "nodes": {
+                "hosts": hosts
+            },
+
+            "ovn_hosts": {
+                "hosts": ovn_hosts,
+                "vars": {
+                    "server_1": ovn_hosts[0],
+                }
+            },
+            "all": {
+                "vars": {
+                    "ansible_connection": "ssh",
+                }
             }
         }
-    }
+
+    else: 
+        inventory = {
+            "nodes": {
+                "hosts": hosts
+            },
+
+            "ovn_hosts": {
+                "hosts": ovn_hosts,
+                "vars": {
+                    "server_1": ovn_hosts[0],
+                    "server_2": ovn_hosts[1],
+                    "server_3": ovn_hosts[2]
+                }
+            },
+            "all": {
+                "vars": {
+                    "ansible_connection": "ssh",
+                }
+            }
+        }
 
     print(json.dumps(inventory, indent=2))
 
