@@ -12,7 +12,11 @@
                 }
         },
         "incus-cluster": {
-                "nodes": [],
+                "nodes": {
+                        "node1": "ip_node1",
+                        "node2": "ip_node2",
+                        "node3": "ip_node3"
+                },
                 "project": "deafult",
                 "instances_type": "container",
 

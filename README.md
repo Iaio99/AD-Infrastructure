@@ -18,7 +18,7 @@ Every key must be associated with a correct subnet (e.g. 10.0.12.0/24)
 
 ### incus-cluster section
 The incus cluster section has the following keys:
-- nodes: list. The list of nodes that will compose the cluster. If only one node is specified then it will set up everything on the server, without creating a cluster
+- nodes: dict. 
 - project: string. Name of the incus project
 - instances_type: string. Type of the incus instance. It must be container or virtual-machine
 - player_number: int. Number of players for team.
