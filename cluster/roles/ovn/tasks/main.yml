@@ -11,13 +11,13 @@
   become: yes
 
 block:
-- name: Install ovn packages
-  package:
-    name:
-      - "{{ ovncentral }}"
-    state: latest
-  become: yes
-  when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
+  - name: Install ovn packages
+    package:
+      name:
+        - "{{ ovncentral }}"
+      state: latest
+    become: yes
+    when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
 
   - name: Set local as current host
     set_fact:
@@ -49,18 +49,15 @@ block:
     become: yes
     register: command_output
 
-  - name: Mostra l'output registrato
-    debug:
-      var: command_output
 when: ansible_play_hosts | length > 2
 
 block:
-- name: Install ovn packages
-  package:
-    name:
-      - "{{ ovncentral }}"
-    state: latest
-  become: yes
+  - name: Install ovn packages
+    package:
+      name:
+        - "{{ ovncentral }}"
+      state: latest
+    become: yes
 
   - name: Configure Open vSwitch
     shell: "sudo ovs-vsctl set open_vswitch . external_ids:ovn-remote=unix:/run/ovn/ovnsb_db.sock external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip=127.0.0.1"
