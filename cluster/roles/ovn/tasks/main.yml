@@ -1,15 +1,15 @@
 - name: "Choose packages"
   set_fact: 
-    ovn-host: "{{ 'openvswitch-ovn-host' if ansible_os_family == 'Suse' else 'ovn-host' }}"
-    ovn-central: "{{ 'openvswitch-ovn-central' if ansible_os_family == 'Suse' else 'ovn-central' }}"
+    ovnhost: "{{ 'openvswitch-ovn-host' if ansible_os_family == 'Suse' else 'ovn-host' }}"
+    ovncentral: "{{ 'openvswitch-ovn-central' if ansible_os_family == 'Suse' else 'ovn-central' }}"
 
 - name: Install ovn packages
   package:
     name:
-      - ovn-host
-      - ovn-central
+      - "{{ ovnhost }}"
+      - "{{ ovncentral }}"
     state: latest
-  notify: Stop ovn-central
+  become: yes
 
 - name: Set local as current host
   set_fact:
@@ -19,14 +19,27 @@
   template:
     src: templates/bootstrap-ovn-central.conf.j2
     dest: /etc/default/ovn-central
-    notify: Start ovn-central
+  when: inventory_hostname == server_1
+  become: yes
 
 - name: Set up server 2 and 3
   template:
     src: templates/ovn-central.conf.j2
     dest: /etc/default/ovn-central
-    notify: Start ovn-central
+  when: inventory_hostname == server_2 or inventory_hostname == server_3
+  become: yes
+
+- name: Restart ovn-central
+  systemd_service:
+    name: ovn-central
+    state: restarted
+  become: yes
 
 - name: Configure Open vSwitch
-  command: 
-    cmd: "sudo ovs-vsctl set open_vswitch . external_ids:ovn-remote=tcp:{{ server_1 }}:6642,tcp:{{ server_2 }}:6642,tcp:{{ server_3 }}:6642 external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip={{ local }}"
+  shell: "ovs-vsctl set open_vswitch . external_ids:ovn-remote=tcp:{{ server_1 }}:6642,tcp:{{ server_2 }}:6642,tcp:{{ server_3 }}:6642 external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip={{ local }}"
+  become: yes
+  register: command_output
+
+- name: Mostra l'output registrato
+  debug:
+    var: command_output
