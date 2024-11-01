@@ -7,7 +7,7 @@ resource "incus_instance" "faust_gameserver" {
     name = "eth0"
     type = "nic"
     properties = {
-      "network" = "gameserver0"
+      "network" = "gameserver-network"
       "ipv4.address" = "10.10.0.1"
     }
   }
@@ -47,7 +47,7 @@ resource "incus_instance" "vulnbox" {
     type = "nic"
     properties = {
       "name" = "game0"
-      "network" = "vulnbox0"
+      "network" = "vulnboxes-network"
       "ipv4.address" = "10.60.${count.index}.1"
     }
   }
@@ -71,7 +71,7 @@ resource "incus_instance" "vpn" {
     type = "nic"
     properties = {
       "name" = "eth0"
-      "network" = "team0"
+      "network" = "vpn-servers-network"
       "ipv4.address" = "10.80.${count.index}.254"
     }
   }
