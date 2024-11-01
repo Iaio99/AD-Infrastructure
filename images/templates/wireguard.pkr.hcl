@@ -1,10 +1,12 @@
 source "incus" "wireguard" {
   image = "images:alpine/3.20"
   output_image = "wireguard"
+  container_name = "${local.config.incus-cluster.remote}:wireguard"
   reuse = true
+  publish_remote_name = local.config.incus-cluster.remote
 
   publish_properties =  {
-    description = "Image for the VPNs servers that will give access to the players to the infrastructure"
+    description = "Image for the VPNs servers that will give access to the players to the infrastructure" 
   }
 }
 
@@ -13,7 +15,7 @@ build {
 
   provisioner "shell" {
     inline  = [
-	    "apk add iptables wireguard-tools-wg-quick python3 bash-completion",
+      "apk add iptables wireguard-tools-wg-quick python3 bash-completion",
       "mkdir /etc/wireguard"
     ]
   }

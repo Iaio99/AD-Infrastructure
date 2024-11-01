@@ -1,7 +1,9 @@
 source "incus" "gameserver" {
   image = "images:debian/12"
   output_image = "gameserver"
+  container_name = "${local.config.incus-cluster.remote}:gameserver"
   reuse = true
+  publish_remote_name = local.config.incus-cluster.remote
 
   publish_properties =  {
     description = "Image for the gameserver"
