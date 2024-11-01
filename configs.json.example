@@ -23,7 +23,4 @@
                 "player_number": 6,
                 "remote": "local://"
         },
-        "packer": {
-                "service_folder": "/path/to/services"
-        }
 }

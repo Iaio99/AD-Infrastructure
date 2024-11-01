@@ -4,7 +4,6 @@
 The configuration file (configs.json) is divided in 3 sections:
 - ad-platform
 - incus-cluster
-- packer
 
 ### ad-platform section
 The ad-platform section has two config that must be specified:
