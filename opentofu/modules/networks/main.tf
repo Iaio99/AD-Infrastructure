@@ -8,4 +8,6 @@ resource "incus_network" "network" {
     "ipv4.nat" = "true"
     "ipv4.dhcp" = "true"
   }
+
+  type = ovn
 }
