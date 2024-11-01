@@ -1,6 +1,6 @@
-resource "incus_instance" "gameserver" {
-  name  = "gameserver"
-  image = "gameserver"
+resource "incus_instance" "faust_gameserver" {
+  name  = "faust_gameserver"
+  image = "faust_gameserver"
   profiles = ["ad"]
 
   device {

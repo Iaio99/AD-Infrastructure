@@ -1,17 +1,17 @@
-source "incus" "gameserver" {
+source "incus" "faust_gameserver" {
   image = "images:debian/12"
-  output_image = "gameserver"
-  container_name = "${local.config.incus-cluster.remote}:gameserver"
+  output_image = "faust_gameserver"
+  container_name = "${local.config.incus-cluster.remote}:faust_gameserver"
   reuse = true
   publish_remote_name = local.config.incus-cluster.remote
 
   publish_properties =  {
-    description = "Image for the gameserver"
+    description = "Image for the faust_gameserver"
   }
 }
 
 build {
-  sources = ["source.incus.gameserver"]
+  sources = ["source.incus.faust_gameserver"]
 
   provisioner "shell" {
     inline  = [
