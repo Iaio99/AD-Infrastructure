@@ -14,15 +14,15 @@ module "networks" {
 
   networks = [
     {
-      name = "vulnbox0"
+      name = "vulnboxes-network"
       ipv4 = "10.60.255.254/16"
     },
     {
-      name = "team0"
+      name = "vpn-servers-network"
       ipv4 = "10.80.255.254/16"
     },
     {
-      name = "gameserver0"
+      name = "gameserver-network"
       ipv4 = "10.10.0.2/30"
     }
   ]
