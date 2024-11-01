@@ -1,7 +1,3 @@
-- hosts: gameserver
-  roles:
-    - gameserver
-
 - hosts: vulnboxes
   roles:
     - vulnbox

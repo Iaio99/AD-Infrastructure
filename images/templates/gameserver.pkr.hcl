@@ -29,4 +29,8 @@ build {
       "apt-get purge -y devscripts dpkg-dev equivs"
     ]
   }
+  provisioner "ansible" {
+    playbook_file = "{path.root}/../files/gameserver/playbook.yml
+    inventory_file = "{path.root}/../files/gameserver/inventory
+  }
 }
