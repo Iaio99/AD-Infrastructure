@@ -21,6 +21,6 @@
                 "instances_type": "container",
 
                 "player_number": 6,
-                "remote": "local://"
+                "remote": "local"
         },
 }
