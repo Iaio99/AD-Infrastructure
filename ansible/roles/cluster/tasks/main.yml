@@ -1,0 +1,5 @@
+- name: "Init bootstrap server"
+
+- name: "Grab cluster certificate"
+
+- name: "Set up other nodes"
