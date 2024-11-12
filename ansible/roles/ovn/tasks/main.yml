@@ -64,4 +64,4 @@
     become: yes
     register: command_output
     
-  when: ansible_play_hosts | lenght == 1
+  when: ansible_play_hosts | length == 1
