@@ -10,7 +10,7 @@
     state: latest
   become: yes
 
-block:
+- block:
   - name: Install ovn packages
     package:
       name:
@@ -49,9 +49,9 @@ block:
     become: yes
     register: command_output
 
-when: ansible_play_hosts | length > 2
+  when: ansible_play_hosts | length > 2
 
-block:
+- block:
   - name: Install ovn packages
     package:
       name:
@@ -64,4 +64,4 @@ block:
     become: yes
     register: command_output
     
-when: ansible_play_hosts | lenght == 1
+  when: ansible_play_hosts | lenght == 1
