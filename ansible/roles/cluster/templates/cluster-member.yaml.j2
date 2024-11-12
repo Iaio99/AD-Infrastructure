@@ -1,37 +1,11 @@
-config: {}
-networks: []
-storage_pools: []
-profiles: []
-projects: []
 cluster:
   server_name: {{ server_name }}
   enabled: true
   member_config:
   - entity: storage-pool
-    name: default
-    key: source
-    value: ""
-    description: '"source" property for storage pool "default"'
-  - entity: storage-pool
     name: local
     key: source
     value: ""
     description: '"source" property for storage pool "local"'
-  cluster_address: {{ cluster_address }}:8443
-  cluster_certificate: |
-    -----BEGIN CERTIFICATE-----
-    MIIB+zCCAYGgAwIBAgIRAJcDO9OSNDNGK9huHBz8aP4wCgYIKoZIzj0EAwMwMDEZ
-    MBcGA1UEChMQTGludXggQ29udGFpbmVyczETMBEGA1UEAwwKcm9vdEBub2RlMTAe
-    Fw0yNDExMTExMzExMDBaFw0zNDExMDkxMzExMDBaMDAxGTAXBgNVBAoTEExpbnV4
-    IENvbnRhaW5lcnMxEzARBgNVBAMMCnJvb3RAbm9kZTEwdjAQBgcqhkjOPQIBBgUr
-    gQQAIgNiAAQKEhUJGZwhcFUIu8wDtCsuCvRniJrlJs5373FrQ9TDmtqPUQqHpfRE
-    HyAwc/A3JXebt8ALBccyYnlfXwGLe0PGGz5LatdW8jBgKPdzrsf5DSLNHh+KwAzM
-    aBiICgRYmyKjXzBdMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcD
-    ATAMBgNVHRMBAf8EAjAAMCgGA1UdEQQhMB+CBW5vZGUxhwR/AAABhxAAAAAAAAAA
-    AAAAAAAAAAABMAoGCCqGSM49BAMDA2gAMGUCMAfu8A6lye3An8HkMxhDogwtnOtY
-    YPza2nOhY27+WnINUGgF+r1Flj28xDChgSeIAgIxAOTRex8smW+m85CdpvIh1prz
-    LC1+kxrHNAEhU6tdNvh1GdfW0nj3SK3Pg0+EUyUUKg==
-    -----END CERTIFICATE-----
   server_address: {{ server_address }}:8443
   cluster_token: ""
-  cluster_certificate_path: ""
