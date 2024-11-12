@@ -1,21 +1,18 @@
 config:
   core.https_address: {{ cluster_address }}:8443
-networks: []
+networks:
+- name: incusbr0
+  type: bridge
 storage_pools:
-- config: {}
-  description: ""
-  name: local
-  driver: dir
+- name: local
+driver: dir
 profiles:
-- config: {}
-  description: ""
+- name: default
   devices:
     root:
       path: /
       pool: local
       type: disk
-  name: default
-projects: []
 cluster:
   server_name: {{ server_name }}
   enabled: true

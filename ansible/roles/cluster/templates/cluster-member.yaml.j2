@@ -3,9 +3,8 @@ cluster:
   enabled: true
   member_config:
   - entity: storage-pool
-    name: local
+    name: default
     key: source
     value: ""
-    description: '"source" property for storage pool "local"'
   server_address: {{ server_address }}:8443
   cluster_token: {{ token }}
