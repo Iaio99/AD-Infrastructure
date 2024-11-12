@@ -1,7 +1,4 @@
-- hosts: ovn_hosts
+- hosts: cluster_nodes
   roles:
     - ovn
-
-- hosts: nodes
-  roles:
     - cluster

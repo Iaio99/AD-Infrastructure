@@ -14,12 +14,49 @@ def main():
 
     vulnboxes = ["nop-vulnbox"]
     vpns = []
-    hosts = []
-    ovn_hosts = []
+    cluster_nodes = []
+    nodes_names = dict()
+
+    for n in nodes.keys():
+        cluster_nodes.append(nodes[n])
+        nodes_names[nodes[n]] = n
+
+    cluster_address = cluster_nodes[0]
+
+    if len(nodes) == 2:
+        raise Exception("Cluster dimension cannot be 2")
+
+    if len(nodes) == 1:
+        inventory_cluster = {
+            "cluster_nodes": {
+                "hosts": cluster_nodes,
+                "vars": {
+                    "server_1": cluster_nodes[0],
+                    "ansible_connection": "ssh",
+                }
+            }
+        }
+
+    else: 
+        inventory_cluster = {
+            "cluster_nodes": {
+                "hosts": cluster_nodes,
+                "vars": {
+                    "cluster_address": cluster_nodes[0],
+                    "nodes_names": nodes_names,
+                    "server_1": cluster_nodes[0],
+                    "server_2": cluster_nodes[1],
+                    "server_3": cluster_nodes[2],
+                    "ansible_connection": "ssh"
+
+                }
+            }
+        }
+
 
     for t in teams:
-        vulnboxes.append(t+"-vulnbox")
-        vpns.append(t+"-vpn")
+        vulnboxes.append(t + "-vulnbox")
+        vpns.append(t + "-vpn")
 
     inventory = {
         "vulnboxes": {
@@ -33,7 +70,7 @@ def main():
         "vpns": {
             "hosts": vpns,
             "vars": {
-                "endpoint_address": "192.168.142.111",
+                "endpoint_address": cluster_address,
                 "vpn_players": player_number,
                 "ansible_connection": "community.general.incus",
                 "ansible_remote": remote
@@ -41,49 +78,6 @@ def main():
         }
     }
 
-    for n in nodes.keys():
-        hosts.append(n)
-        ovn_hosts.append(nodes[n])
-
-    if len(nodes) == 2:
-        raise Exception("Cluster dimension cannot be 2")
-
-    if len(nodes) == 1:
-        inventory_cluster = {
-            "nodes": {
-                "hosts": hosts,
-                "vars": {
-                    "ansible_connection": "ssh"
-                }
-            },
-
-            "ovn_hosts": {
-                "hosts": ovn_hosts,
-                "vars": {
-                    "server_1": ovn_hosts[0],
-                    "ansible_connection": "ssh"
-                }
-            },
-        }
-
-    else: 
-        inventory_cluster = {
-            "nodes": {
-                "hosts": hosts,
-                "ansible_connection": "ssh"
-            },
-
-            "ovn_hosts": {
-                "hosts": ovn_hosts,
-                "vars": {
-                    "server_1": ovn_hosts[0],
-                    "server_2": ovn_hosts[1],
-                    "server_3": ovn_hosts[2],
-                    "ansible_connection": "ssh"
-
-                }
-            },
-        }
     inventory.update(inventory_cluster)
     print(json.dumps(inventory, indent=2))
 
