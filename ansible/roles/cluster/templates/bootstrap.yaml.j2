@@ -3,6 +3,10 @@ config:
 networks:
 - name: incusbr0
   type: bridge
+  config:
+    ipv4.address: 172.16.252.0/22
+    ipv4.dhcp: yes
+    ipv4.nat: yes
 storage_pools:
 - name: local
 driver: dir
