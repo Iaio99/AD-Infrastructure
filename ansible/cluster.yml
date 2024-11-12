@@ -2,6 +2,6 @@
   roles:
     - cluster
 
-#- hosts: ovn_hosts
-#  roles:
-#    - ovn
+hosts: ovn_hosts
+  roles:
+    - ovn
