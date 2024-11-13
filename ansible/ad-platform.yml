@@ -1,7 +1,13 @@
 - hosts: localhost
   ansible_connection: local
   tasks:
-    - name: Basic deploy of a service
+    - name: Init packer
+      shell: packer init images/templates
+    
+    - name: Deploy images
+      shell: packer build images/templates
+
+    - name: Deploy of the AD platform
       community.general.terraform:
         project_path: '{{ ../terraform }}'
         force_init: true
