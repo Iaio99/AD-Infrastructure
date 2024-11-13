@@ -1,3 +1,13 @@
+- hosts: localhost
+  ansible_connection: local
+  tasks:
+    - name: Basic deploy of a service
+      community.general.terraform:
+        project_path: '{{ terraform }}'
+        force_init: true
+        state: present
+
+
 - hosts: vulnboxes
   roles:
     - vulnbox
