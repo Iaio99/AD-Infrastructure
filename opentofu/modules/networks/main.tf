@@ -10,5 +10,6 @@ resource "incus_network" "network" {
     "ipv4.address" = each.value.ipv4
     "ipv4.nat" = "true"
     "ipv4.dhcp" = "true"
+    "network" = "incusbr0"
   }
 }
