@@ -1,7 +1,8 @@
 resource "incus_project" "project" {
   name = var.project_name
+  
   config = {
-    "features.profiles"        = true
+    "features.profiles" = true
   }
 }
 

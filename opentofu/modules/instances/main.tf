@@ -2,6 +2,8 @@ resource "incus_instance" "faust_gameserver" {
   name  = "faust_gameserver"
   image = "faust_gameserver"
   profiles = ["ad"]
+  remote = var.remote
+  project = var.project_name
 
   device {
     name = "eth0"
@@ -34,6 +36,8 @@ resource "incus_instance" "vulnbox" {
   name  = "${var.teams[count.index]}-vulnbox"
   image = "vulnbox"
   profiles = ["ad"]
+  remote = var.remote
+  project = var.project_name
 
   config = {
     "boot.autostart" = true
@@ -61,6 +65,8 @@ resource "incus_instance" "vpn" {
   name  = "${var.teams[count.index]}-vpn"
   image = "wireguard"
   profiles = ["ad"]
+  remote = var.remote
+  project = var.project_name
 
   config = {
     "boot.autostart" = true
