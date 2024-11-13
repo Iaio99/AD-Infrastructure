@@ -1,7 +1,7 @@
 resource "incus_instance" "faust_gameserver" {
   name  = "faust_gameserver"
   image = "faust_gameserver"
-  profiles = ["ad"]
+  profiles = ["default"]
   remote = var.remote
   project = var.project_name
 
@@ -35,7 +35,7 @@ resource "incus_instance" "vulnbox" {
 
   name  = "${var.teams[count.index]}-vulnbox"
   image = "vulnbox"
-  profiles = ["ad"]
+  profiles = ["default"]
   remote = var.remote
   project = var.project_name
 
@@ -64,7 +64,7 @@ resource "incus_instance" "vpn" {
 
   name  = "${var.teams[count.index]}-vpn"
   image = "wireguard"
-  profiles = ["ad"]
+  profiles = ["default"]
   remote = var.remote
   project = var.project_name
 
