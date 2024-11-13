@@ -1,4 +1,4 @@
-- name: "Configure faust_gameserver"
+- name: "Configure faust-gameserver"
   hosts: gameserver_image
   tasks:
     - name: Install Fauscteam Gameserver
