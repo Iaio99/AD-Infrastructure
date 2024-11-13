@@ -6,6 +6,11 @@
           name: incus
           state: stopped
 
+      - name: "Stop incus socket"
+        systemd_service:
+          name: incus.socket
+          state: stopped
+          
       - name: "Stop lxcfs service"
         systemd_service:
           name: lxcfs
