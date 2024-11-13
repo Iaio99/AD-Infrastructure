@@ -4,6 +4,7 @@ locals {
   remote = local.config["incus_cluster"]["remote"]
 }
 
+/*
 module "profile" {
   source = "./modules/profile"
   depends_on = [module.networks]
@@ -11,7 +12,7 @@ module "profile" {
   project_name = local.project_name
   remote = local.remote
 }
-
+*/
 module "networks" {
   source = "./modules/networks"
 
@@ -36,7 +37,8 @@ module "networks" {
 
 module "instances" {  
   source = "./modules/instances"
-  depends_on = [module.networks, module.profile]
+//  depends_on = [module.networks, module.profile]
+  depends_on = [module.networks]
 
   project_name = local.project_name
   remote = local.remote
