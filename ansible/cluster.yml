@@ -1,5 +1,9 @@
 - hosts: cluster_nodes
-  serial: 1
   roles:
     - ovn
+  
+- hosts: cluster_nodes
+  serial: 1
+  roles:
     - cluster
+  when: cluster_nodes | lenght > 2
