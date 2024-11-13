@@ -10,7 +10,7 @@
         systemd_service:
           name: incus.socket
           state: stopped
-          
+
       - name: "Stop lxcfs service"
         systemd_service:
           name: lxcfs
@@ -21,9 +21,7 @@
           state: absent
           path: /var/lib/incus
 
-      - name: "Start incus service"
-        systemd_service:
-          name: incus
-          state: started
+      - name: "Reboot"
+        reboot:
 
       become: yes
