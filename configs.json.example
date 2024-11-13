@@ -1,5 +1,5 @@
 {
-        "ad-platform": {
+        "ad_platform": {
                 "teams" : [
                         "team1",
                         "team2",
@@ -12,7 +12,7 @@
                 },
                 "player_number": 6
         },
-        "incus-cluster": {
+        "incus_cluster": {
                 "nodes": {
                         "node1": "ip_node1",
                         "node2": "ip_node2",

@@ -7,10 +7,10 @@ import sys
 def main():
     with open('../configs.json', 'r') as f:
         configs = json.load(f)
-        teams = configs["ad-platform"]["teams"]
-        player_number = configs["ad-platform"]["player_number"]
-        nodes = configs["incus-cluster"]["nodes"]
-        remote = configs["incus-cluster"]["remote"]
+        teams = configs["ad_platform"]["teams"]
+        player_number = configs["ad_platform"]["player_number"]
+        nodes = configs["incus_cluster"]["nodes"]
+        remote = configs["incus_cluster"]["remote"]
 
     vulnboxes = ["nop-vulnbox"]
     vpns = []
