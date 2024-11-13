@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+    - block:
+      - name: "Stop incus service"
+        systemd_service:
+          name: incus
+          state: stopped
+
+      - name: "Stop lxcfs service"
+        systemd_service:
+          name: lxcfs
+          state: stopped
+
+      - name: "Remove incus folder"
+        file:
+          state: absent
+          path: /var/lib/incus
+
+      - name: "Start incus service"
+        systemd_service:
+          name: incus
+          state: started
+
+      become: yes
