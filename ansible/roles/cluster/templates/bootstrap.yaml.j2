@@ -4,12 +4,12 @@ networks:
 - name: incusbr0
   type: bridge
   config:
-    ipv4.address: 172.16.252.0/22
+    ipv4.address: 172.16.252.1/22
     ipv4.dhcp: yes
     ipv4.nat: yes
 storage_pools:
 - name: local
-driver: dir
+  driver: dir
 profiles:
 - name: default
   devices:
@@ -17,6 +17,10 @@ profiles:
       path: /
       pool: local
       type: disk
+    incusbr0:
+      nictype: bridged
+      parent: incusbr0
+      type: nic
 cluster:
   server_name: {{ server_name }}
   enabled: true
