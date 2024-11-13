@@ -1,5 +1,5 @@
-resource "incus_instance" "faust_gameserver" {
-  name  = "faust_gameserver"
+resource "incus_instance" "gameserver" {
+  name  = "gameserver"
   image = "faust-gameserver"
   profiles = ["default"]
   remote = var.remote
