@@ -3,9 +3,3 @@ variable "config_file" {
   type        = string
   default     = "../configs.json"
 }
-
-variable "project_name" {
-  description = "Name of the Incus project"
-  type = string
-  default = "default"
-}
