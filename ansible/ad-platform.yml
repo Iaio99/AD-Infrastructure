@@ -3,7 +3,7 @@
   tasks:
     - name: Basic deploy of a service
       community.general.terraform:
-        project_path: '{{ terraform }}'
+        project_path: '{{ ../terraform }}'
         force_init: true
         state: present
 
