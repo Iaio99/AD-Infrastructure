@@ -1,6 +1,6 @@
 - name: Set server_name
   set_fact:
-    server_name: "{{ nodes_name[inventory_hostname] }}"
+    server_name: "{{ nodes_names[inventory_hostname] }}"
 
 - name: Set local as current host
   set_fact:
@@ -11,35 +11,33 @@
     template:
       src: templates/bootstrap.yaml.j2
       dest: /tmp/init.yaml
-    when: inventory_hostname == cluster_address
 
   - name: "Set up bootstrap server"
     shell: incus admin init --preseed < /tmp/init.yaml
-    when: inventory_hostname == cluster_address
 
   - name: "Generate members tokens"
     include_tasks: generate_tokens.yml
-    loop: "{{ nodes_name.values() }}"
-    when: inventory_hostname == cluster_address
+    loop: "{{ nodes_names.values() }}"
+  
+  when: inventory_hostname == cluster_address
+  become: yes
 
+- block:
   - name: "Set token"
     set_fact:
       token: "{{ hostvars[cluster_address].tokens[server_name] }}"
-    when: inventory_hostname != cluster_address
 
   - name: "Debug"
     debug:
       msg: "{{ token }}"
-    when: inventory_hostname != cluster_address
 
   - name: "Copy init file on other nodes"
     template:
       src: templates/cluster-member.yaml.j2
       dest: /tmp/init.yaml
-    when: inventory_hostname != cluster_address
 
   - name: "init incus"
     shell: incus admin init --preseed < /tmp/init.yaml
-    when: inventory_hostname != cluster_address
-  
+
+  when: inventory_hostname != cluster_address
   become: yes
