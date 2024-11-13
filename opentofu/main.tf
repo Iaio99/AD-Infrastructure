@@ -1,16 +1,22 @@
 locals {
   config = jsondecode(file(var.config_file))
+  project_name = local.config["incus_cluster"]["project_name"]
+  remote = local.config["incus_cluster"]["remote"]
 }
 
 module "profile" {
   source = "./modules/profile"
-  project_name = var.project_name
   depends_on = [module.networks]
+
+  project_name = local.project_name
+  remote = local.remote
 }
 
 module "networks" {
   source = "./modules/networks"
-  project_name = var.project_name
+
+  project_name = local.project_name
+  remote = local.remote
 
   networks = [
     {
@@ -30,8 +36,10 @@ module "networks" {
 
 module "instances" {  
   source = "./modules/instances"
-  project_name = var.project_name
-  instance_type = local.config["instances_type"]
   depends_on = [module.networks, module.profile]
-  teams = concat(["nop"], local.config["teams"])
+
+  project_name = local.project_name
+  remote = local.remote
+  instance_type = local.config["incus_cluster"]["instances_type"]
+  teams = concat(["nop"], local.config["ad-platform"]["teams"])
 }
