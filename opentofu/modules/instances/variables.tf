@@ -3,6 +3,11 @@ variable "project_name" {
   type        = string
 }
 
+variable "remote" {
+  description = "Remote del progetto"
+  type        = string
+}
+
 variable "teams" {
   description = "List of teams that will partecipate"
   type = list(string)

@@ -1,11 +1,17 @@
 variable "project_name" {
-  description = "Nome del progetto ricevuto dal modulo root"
-  type        = string
+  description = "Nome del progetto"
+  type = string
 }
+
+variable "remote" {
+  description = "Remote del progetto"
+  type = string
+}
+
 
 variable "networks" {
   description = "List of networks"
-  type        = list(object({
+  type = list(object({
     name = string
     ipv4 = string
   }))
@@ -13,8 +19,7 @@ variable "networks" {
 
 variable "network_type" {
   type = string
-  default = "bridge"
-
+  default = "ovn"
 }
 
 locals {
