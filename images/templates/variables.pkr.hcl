@@ -1,3 +1,3 @@
 locals {
-  config = jsondecode(file("${path.root}/../../../../configs.json"))
+  config = jsondecode(file("../../configs.json"))
 }
