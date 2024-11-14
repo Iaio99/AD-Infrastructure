@@ -33,6 +33,7 @@ def main():
                 "hosts": cluster_nodes,
                 "vars": {
                     "server_1": cluster_nodes[0],
+                    "remote": remote,
                     "ansible_connection": "ssh",
                     "ansible_user": ansible_user
                 }
@@ -44,8 +45,8 @@ def main():
             "cluster_nodes": {
                 "hosts": cluster_nodes,
                 "vars": {
-                    "cluster_address": cluster_nodes[0],
                     "nodes_names": nodes_names,
+                    "remote": remote,
                     "server_1": cluster_nodes[0],
                     "server_2": cluster_nodes[1],
                     "server_3": cluster_nodes[2],
