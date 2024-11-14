@@ -1,9 +1,9 @@
 source "incus" "faust-gameserver" {
   image = "images:debian/12"
   output_image = "faust-gameserver"
-  container_name = "${local.config.incus-cluster.remote}:faust-gameserver"
+  container_name = "${local.config.incus_cluster.remote}:faust-gameserver"
   reuse = true
-  publish_remote_name = local.config.incus-cluster.remote
+  publish_remote_name = local.config.incus_cluster.remote
 
   publish_properties =  {
     description = "Image for the faust-gameserver"
@@ -34,7 +34,7 @@ build {
     playbook_file = "${path.root}/../files/gameserver/playbook.yml"
     inventory_file = "${path.root}/../files/gameserver/inventory"
     extra_arguments = [
-      "--extra-vars", "ansible_incus_remote=${local.config.incus-cluster.remote}",
+      "--extra-vars", "ansible_incus_remote=${local.config.incus_cluster.remote}",
       "--connection=community.general.incus"
     ]
   }

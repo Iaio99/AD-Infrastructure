@@ -1,9 +1,9 @@
 source "incus" "vulnbox" {
   image = "images:debian/12"
   output_image = "vulnbox"
-  container_name = "${local.config.incus-cluster.remote}:vulnbox"
+  container_name = "${local.config.incus_cluster.remote}:vulnbox"
   reuse = true
-  publish_remote_name = local.config.incus-cluster.remote
+  publish_remote_name = local.config.incus_cluster.remote
 
   publish_properties =  {
     description = "Image for the servers where the vulnerable services will be hosted"
