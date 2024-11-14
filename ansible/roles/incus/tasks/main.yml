@@ -70,6 +70,8 @@
   when: inventory_hostname == server_1
 
 - name: Add remote
-  connection: local
   shell: incus remote add {{ remote }} {{ server_1 }} --accept-certificate
+  connection: local
+  run_once: true
   delegate_to: localhost
+  when: inventory_hostname == server_1
