@@ -14,6 +14,16 @@
       name: lxcfs
       state: stopped
 
+  - name: Umount shmounts
+    mount:
+      path: /var/lib/incus/shmounts
+      state: unmounted
+
+  - name: Umount guestapi
+    mount:
+      path: /var/lib/incus/guestapi
+      state: unmounted
+
   - name: "Remove incus folder"
     file:
       state: absent
