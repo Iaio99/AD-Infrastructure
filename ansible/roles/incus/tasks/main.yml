@@ -40,10 +40,6 @@
       set_fact:
         token: "{{ hostvars[server_1].tokens[server_name] }}"
 
-    - name: "Debug"
-      debug:
-        msg: "{{ token }}"
-
     - name: "Copy init file on other nodes"
       template:
         src: templates/cluster-member.yaml.j2
