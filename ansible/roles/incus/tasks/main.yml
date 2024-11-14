@@ -1,43 +1,58 @@
-- name: Set server_name
-  set_fact:
-    server_name: "{{ nodes_names[inventory_hostname] }}"
-
-- name: Set local as current host
-  set_fact:
-    server_address: "{{ inventory_hostname }}"
-
 - block:
-  - name: "Copy init file on boostrap server"
-    template:
-      src: templates/bootstrap.yaml.j2
-      dest: /tmp/init.yaml
+    - name: "Copy init file on inucs server"
+      template:
+        src: templates/server.yaml.j2
+        dest: /tmp/init.yaml
 
-  - name: "Set up bootstrap server"
-    shell: incus admin init --preseed < /tmp/init.yaml
-
-  - name: "Generate members tokens"
-    include_tasks: generate_tokens.yml
-    loop: "{{ nodes_names.values() }}"
+    - name: "Set up incus server"
+      shell: incus admin init --preseed < /tmp/init.yaml
   
-  when: inventory_hostname == cluster_address
   become: yes
+  when: ansible_play_hosts | length == 1
 
 - block:
-  - name: "Set token"
+  - name: Set server_name
     set_fact:
-      token: "{{ hostvars[cluster_address].tokens[server_name] }}"
+      server_name: "{{ nodes_names[inventory_hostname] }}"
 
-  - name: "Debug"
-    debug:
-      msg: "{{ token }}"
+  - name: Set local as current host
+    set_fact:
+      server_address: "{{ inventory_hostname }}"
 
-  - name: "Copy init file on other nodes"
-    template:
-      src: templates/cluster-member.yaml.j2
-      dest: /tmp/init.yaml
+  - block:
+    - name: "Copy init file on boostrap server"
+      template:
+        src: templates/bootstrap.yaml.j2
+        dest: /tmp/init.yaml
 
-  - name: "init incus"
-    shell: incus admin init --preseed < /tmp/init.yaml
+    - name: "Set up bootstrap server"
+      shell: incus admin init --preseed < /tmp/init.yaml
 
-  when: inventory_hostname != cluster_address
-  become: yes
+    - name: "Generate members tokens"
+      include_tasks: generate_tokens.yml
+      loop: "{{ nodes_names.values() }}"
+
+    when: inventory_hostname == cluster_address
+    become: yes
+
+  - block:
+    - name: "Set token"
+      set_fact:
+        token: "{{ hostvars[cluster_address].tokens[server_name] }}"
+
+    - name: "Debug"
+      debug:
+        msg: "{{ token }}"
+
+    - name: "Copy init file on other nodes"
+      template:
+        src: templates/cluster-member.yaml.j2
+        dest: /tmp/init.yaml
+
+    - name: "init incus"
+      shell: incus admin init --preseed < /tmp/init.yaml
+
+    when: inventory_hostname != cluster_address
+    become: yes
+
+  when: ansible_play_hosts | length > 2
