@@ -13,6 +13,7 @@
                 "player_number": 6
         },
         "incus_cluster": {
+                "ansible_user": "user",
                 "nodes": {
                         "node1": "ip_node1",
                         "node2": "ip_node2",
