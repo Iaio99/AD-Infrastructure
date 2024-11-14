@@ -14,9 +14,32 @@
     - block:
       - name: "Set ovn-northd-nb-db"
         set_fact:
-          ovn-northd-nb-db: tcp:{{ server_1 }}:6641,tcp:{{ server_2 }}:6641,tcp:{{ server_3 }}:6641
+          ovn_northd_nb_db: tcp:{{ server_1 }}:6641,tcp:{{ server_2 }}:6641,tcp:{{ server_3 }}:6641
 
       - name: "Make ovn communicate with incus"
-        shell: incus config set network.ovn.northbound_connection {{ ovn-northd-nb-db }}
+        shell: "incus config set network.ovn.northbound_connection {{ ovn_northd_nb_db }}"
       
-      when: ansible_play_hosts | length > 2
+      when: ansible_play_hosts | length > 2 and inventory_hostname == server_1
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Init packer
+      shell: packer init ../images/templates
+    
+    - name: Deploy images
+      shell: packer build ../images/templates
+
+    - name: Deploy of the AD platform
+      community.general.terraform:
+        project_path: '../terraform'
+        force_init: true
+        state: present
+
+- hosts: vulnboxes
+  roles:
+    - vulnbox
+
+- hosts: vpns
+  roles:
+    - vpn
