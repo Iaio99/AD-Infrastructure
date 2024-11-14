@@ -43,5 +43,5 @@ module "instances" {
   project_name = local.project_name
   remote = local.remote
   instance_type = local.config["incus_cluster"]["instances_type"]
-  teams = concat(["nop"], local.config["ad-platform"]["teams"])
+  teams = concat(["nop"], local.config["ad_platform"]["teams"])
 }
