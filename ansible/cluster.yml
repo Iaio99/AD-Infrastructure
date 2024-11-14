@@ -9,5 +9,14 @@
 - hosts: cluster_nodes
   serial: 1
   roles:
-    - cluster
-  when: cluster_nodes | lenght > 2
+    - incus
+  tasks:
+    - block:
+      - name: "Set ovn-northd-nb-db"
+        set_fact:
+          ovn-northd-nb-db: tcp:{{ server_1 }}:6641,tcp:{{ server_2 }}:6641,tcp:{{ server_3 }}:6641
+
+      - name: "Make ovn communicate with incus"
+        shell: incus config set network.ovn.northbound_connection {{ ovn-northd-nb-db }}
+      
+      when: ansible_play_hosts | length > 2
