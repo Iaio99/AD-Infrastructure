@@ -32,13 +32,13 @@
       include_tasks: generate_tokens.yml
       loop: "{{ nodes_names.values() }}"
 
-    when: inventory_hostname == cluster_address
+    when: inventory_hostname == server_1
     become: yes
 
   - block:
     - name: "Set token"
       set_fact:
-        token: "{{ hostvars[cluster_address].tokens[server_name] }}"
+        token: "{{ hostvars[server_1].tokens[server_name] }}"
 
     - name: "Debug"
       debug:
@@ -52,7 +52,24 @@
     - name: "init incus"
       shell: incus admin init --preseed < /tmp/init.yaml
 
-    when: inventory_hostname != cluster_address
+    when: inventory_hostname != server_1
     become: yes
 
   when: ansible_play_hosts | length > 2
+
+- block: 
+  - name: Upload incus certificate
+    copy:
+      src: ~/.config/incus/client.crt
+      dest: /tmp/client.crt
+
+  - name: Trust client
+    shell: incus config trust add-certificate /tmp/client.crt
+
+  become: yes
+  when: inventory_hostname == server_1
+
+- name: Add remote
+  connection: local
+  shell: incus remote add {{ remote }} {{ server_1 }} --accept-certificate
+  delegate_to: localhost
