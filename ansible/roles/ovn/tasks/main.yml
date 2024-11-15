@@ -8,7 +8,6 @@
     name:
       - "{{ ovnhost }}"
     state: latest
-  become: yes
 
 - block:
   - name: Install ovn packages
@@ -16,8 +15,7 @@
       name:
         - "{{ ovncentral }}"
       state: latest
-    become: yes
-    when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
+      when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
 
   - name: Set local as current host
     set_fact:
@@ -28,26 +26,22 @@
       src: templates/bootstrap-ovn-central.conf.j2
       dest: /etc/default/ovn-central
     when: inventory_hostname == server_1
-    become: yes
-
+  
   - name: Set up server 2 and 3
     template:
       src: templates/ovn-central.conf.j2
       dest: /etc/default/ovn-central
     when: inventory_hostname == server_2 or inventory_hostname == server_3
-    become: yes
-
+  
   - name: Restart ovn-central
     systemd_service:
       name: ovn-central
       state: restarted
-    become: yes
-    when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
+      when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
 
   - name: Configure Open vSwitch
     shell: "ovs-vsctl set open_vswitch . external_ids:ovn-remote=tcp:{{ server_1 }}:6642,tcp:{{ server_2 }}:6642,tcp:{{ server_3 }}:6642 external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip={{ local }}"
-    become: yes
-    register: command_output
+      register: command_output
 
   when: ansible_play_hosts | length > 2
 
@@ -57,11 +51,9 @@
       name:
         - "{{ ovncentral }}"
       state: latest
-    become: yes
-
+  
   - name: Configure Open vSwitch
     shell: "sudo ovs-vsctl set open_vswitch . external_ids:ovn-remote=unix:/run/ovn/ovnsb_db.sock external_ids:ovn-encap-type=geneve external_ids:ovn-encap-ip=127.0.0.1"
-    become: yes
-    register: command_output
+      register: command_output
     
   when: ansible_play_hosts | length == 1

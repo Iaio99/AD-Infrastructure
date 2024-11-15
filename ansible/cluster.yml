@@ -5,7 +5,8 @@
 - hosts: cluster_nodes
   roles:
     - ovn
-  
+  become: yes
+
 - hosts: cluster_nodes
   serial: 1
   roles:
@@ -20,6 +21,7 @@
         shell: "incus config set network.ovn.northbound_connection {{ ovn_northd_nb_db }}"
       
       when: ansible_play_hosts | length > 2 and inventory_hostname == server_1
+  become: yes
 
 - hosts: localhost
   connection: local
