@@ -47,6 +47,16 @@
       shell: incus admin init --preseed < /tmp/init.yaml
 
     when: inventory_hostname != server_1
+
+  - block:
+    - name: "Set ovn-northd-nb-db"
+      set_fact:
+        ovn_northd_nb_db: tcp:{{ server_1 }}:6641,tcp:{{ server_2 }}:6641,tcp:{{ server_3 }}:6641
+
+    - name: "Make ovn communicate with incus"
+      shell: "incus config set network.ovn.northbound_connection {{ ovn_northd_nb_db }}"
+      
+    when: inventory_hostname == server_1
   
   when: ansible_play_hosts | length > 2
 
