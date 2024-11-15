@@ -1,9 +1,5 @@
 - hosts: cluster_nodes
   roles:
-    - reset
-
-- hosts: cluster_nodes
-  roles:
     - ovn
   become: yes
 
