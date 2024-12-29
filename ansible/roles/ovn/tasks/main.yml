@@ -16,7 +16,7 @@
       name:
         - "{{ ovncentral }}"
       state: latest
-      when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
+    when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
     become: yes
 
   - name: Set local as current host
@@ -41,7 +41,7 @@
     systemd_service:
       name: ovn-central
       state: restarted
-      when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
+    when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
     become: yes
 
   - name: Configure Open vSwitch
