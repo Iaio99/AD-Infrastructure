@@ -1,5 +1,5 @@
 - block:
-    - name: "Copy init file on inucs server"
+    - name: "Copy init file on incus server"
       template:
         src: templates/server.yaml.j2
         dest: /tmp/init.yaml
