@@ -43,7 +43,7 @@
         src: templates/cluster-member.yaml.j2
         dest: /tmp/init.yaml
 
-    - name: "init incus"
+    - name: "Set up cluster members"
       shell: incus admin init --preseed < /tmp/init.yaml
 
     when: inventory_hostname != server_1

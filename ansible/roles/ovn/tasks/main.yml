@@ -3,7 +3,7 @@
     ovnhost: "{{ 'openvswitch-ovn-host' if ansible_os_family == 'Suse' else 'ovn-host' }}"
     ovncentral: "{{ 'openvswitch-ovn-central' if ansible_os_family == 'Suse' else 'ovn-central' }}"
 
-- name: Install ovn packages
+- name: Install ovn-host
   package:
     name:
       - "{{ ovnhost }}"
@@ -11,7 +11,7 @@
   become: yes
 
 - block:
-  - name: Install ovn packages
+  - name: Install ovn-central
     package:
       name:
         - "{{ ovncentral }}"
