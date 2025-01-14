@@ -11,6 +11,7 @@ def main():
         player_number = configs["ad_platform"]["player_number"]
         nodes = configs["incus_cluster"]["nodes"]
         remote = configs["incus_cluster"]["remote"]
+        subnets = configs["ad_platform"]["subnet_ip"]
         ansible_user = configs["incus_cluster"]["ansible_user"]
 
     vulnboxes = ["nop-vulnbox"]
@@ -50,6 +51,7 @@ def main():
                     "server_1": cluster_nodes[0],
                     "server_2": cluster_nodes[1],
                     "server_3": cluster_nodes[2],
+                    "networks": subnets,
                     "ansible_connection": "ssh",
                     "ansible_user": ansible_user
                 }
