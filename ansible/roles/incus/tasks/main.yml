@@ -23,7 +23,8 @@
 
     - name: "Set up incus server"
       shell: incus admin init --preseed < /tmp/init.yaml
-  
+      become: yes
+
   when: ansible_play_hosts | length == 1
 
 - block:
@@ -43,11 +44,12 @@
 
     - name: "Set up bootstrap server"
       shell: incus admin init --preseed < /tmp/init.yaml
+      become: yes
 
     - name: "Generate members tokens"
       include_tasks: generate_tokens.yml
       loop: "{{ nodes_names.values() }}"
-
+      
     when: inventory_hostname == server_1
   
   - block:
@@ -62,6 +64,7 @@
 
     - name: "Set up cluster members"
       shell: incus admin init --preseed < /tmp/init.yaml
+      become: yes
 
     when: inventory_hostname != server_1
 
@@ -72,7 +75,8 @@
 
     - name: "Make ovn communicate with incus"
       shell: "incus config set network.ovn.northbound_connection {{ ovn_northd_nb_db }}"
-      
+      become: yes
+
     when: inventory_hostname == server_1
   
   when: ansible_play_hosts | length > 2
@@ -85,6 +89,7 @@
 
   - name: Trust client
     shell: incus config trust add-certificate /tmp/client.crt
+    become: yes
 
   when: inventory_hostname == server_1
 
@@ -93,4 +98,5 @@
   connection: local
   run_once: true
   delegate_to: localhost
+  become: yes
   when: inventory_hostname == server_1
