@@ -13,7 +13,7 @@
     state: latest
     update_cache: yes
   become: yes
-  when: ansible_play_hosts | length == 1
+  when: ansible_play_hosts | length > 2
 
 - block:
     - name: "Copy init file on incus server"
