@@ -2,7 +2,7 @@
   apt:
     name:
       - incus
-      - qemu-systme
+      - qemu-system
     state: latest
     update_cache: yes
   become: yes
