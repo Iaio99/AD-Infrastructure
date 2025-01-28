@@ -8,6 +8,7 @@
     name:
       - "{{ ovnhost }}"
     state: latest
+    update_cache: yes
   become: yes
 
 - block:
@@ -16,6 +17,7 @@
       name:
         - "{{ ovncentral }}"
       state: latest
+      update_cache: yes
     when: inventory_hostname == server_1 or inventory_hostname == server_2 or inventory_hostname == server_3
     become: yes
 
