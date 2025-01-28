@@ -1,3 +1,20 @@
+- name: "Install cluster requirements"
+  apt:
+    name:
+      - incus
+      - qemu-systme
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: "Install rsync for cluster"
+  apt:
+    name: rsync
+    state: latest
+    update_cache: yes
+  become: yes
+  when: ansible_play_hosts | length == 1
+
 - block:
     - name: "Copy init file on incus server"
       template:
