@@ -95,8 +95,7 @@
 
 - name: Add remote
   shell: incus remote add {{ remote }} {{ server_1 }} --accept-certificate
-  connection: local
-  run_once: true
-  delegate_to: localhost
   become: yes
-  when: inventory_hostname == server_1
+  run_once: true
+  connection: local
+  delegate_to: localhost
