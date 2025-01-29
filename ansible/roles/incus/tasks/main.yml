@@ -16,14 +16,14 @@
   when: ansible_play_hosts | length > 2
 
 - block:
-    - name: "Copy init file on incus server"
-      template:
-        src: templates/server.yaml.j2
-        dest: /tmp/init.yaml
+  - name: "Copy init file on incus server"
+    template:
+      src: templates/server.yaml.j2
+      dest: /tmp/init.yaml
 
-    - name: "Set up incus server"
-      shell: incus admin init --preseed < /tmp/init.yaml
-      become: yes
+  - name: "Set up incus server"
+    shell: incus admin init --preseed < /tmp/init.yaml
+    become: yes
 
   when: ansible_play_hosts | length == 1
 
@@ -46,18 +46,22 @@
       shell: incus admin init --preseed < /tmp/init.yaml
       become: yes
 
-    - name: "Generate members tokens"
-      include_tasks: generate_tokens.yml
-      loop: "{{ nodes_names.values() }}"
-      
     when: inventory_hostname == server_1
-  
+
+  - name: "Generate node token"
+    shell: "incus cluster --force-local --quiet add {{ inventory_hostname }}"
+    register: token
+    when: inventory_hostname != server_1
+
   - block:
-    - name: "Set token"
-      set_fact:
-        token: "{{ hostvars[server_1].tokens[server_name] }}"
+    - name: Wait 5s to avoid token use before valid
+      ansible.builtin.wait_for:
+        timeout: 5
+      delegate_to: localhost
+      when: 'token.changed'
 
     - name: "Copy init file on other nodes"
+      throttle: 1
       template:
         src: templates/cluster-member.yaml.j2
         dest: /tmp/init.yaml
@@ -65,8 +69,8 @@
     - name: "Set up cluster members"
       shell: incus admin init --preseed < /tmp/init.yaml
       become: yes
-
-    when: inventory_hostname != server_1
+    
+    when: token.changed
 
   - block:
     - name: "Set ovn-northd-nb-db"

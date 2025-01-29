@@ -1,7 +1,0 @@
-- name: "Generate node token"
-  shell: incus cluster add {{ item }} | grep -v ":"
-  register: output
-
-- name: "Create tokens"
-  set_fact:
-    tokens: "{{ tokens | default({}) | combine ({ item: output.stdout }) }}"
