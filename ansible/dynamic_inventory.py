@@ -3,7 +3,6 @@
 import json
 import sys
 
-
 def main():
     with open('../configs.json', 'r') as f:
         configs = json.load(f)
@@ -11,8 +10,9 @@ def main():
         player_number = configs["ad_platform"]["player_number"]
         nodes = configs["incus_cluster"]["nodes"]
         remote = configs["incus_cluster"]["remote"]
-        subnets = configs["ad_platform"]["subnet_ip"]
+        networks = configs["ad_platform"]["networks"]
         ansible_user = configs["incus_cluster"]["ansible_user"]
+        instances_type = configs["incus_cluster"]["instances_type"]
 
     vulnboxes = ["nop-vulnbox"]
     vpns = []
@@ -51,7 +51,7 @@ def main():
                     "server_1": cluster_nodes[0],
                     "server_2": cluster_nodes[1],
                     "server_3": cluster_nodes[2],
-                    "networks": subnets,
+                    "networks": networks,
                     "ansible_connection": "ssh",
                     "ansible_user": ansible_user
                 }
@@ -79,6 +79,15 @@ def main():
                 "vpn_players": player_number,
                 "ansible_connection": "community.general.incus",
                 "ansible_remote": remote
+            }
+        },
+        "localhost": {
+            "vars": {
+                "instance_type": instances_type,
+                "networks": networks,
+                "remote": remote,
+                "teams": teams,
+                "ansible_connection": "local"
             }
         }
     }

@@ -31,6 +31,11 @@
         project_path: '../terraform'
         force_init: true
         state: present
+        variables:
+          instance_type: "{{ instance_type }}"
+          networks: "{{ networks }}"
+          remote: "{{ remote }}"
+          teams: "{{ teams }}"
 
 - hosts: vulnboxes
   roles:
