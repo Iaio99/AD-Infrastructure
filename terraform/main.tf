@@ -3,17 +3,17 @@ module "profile" {
   source = "./modules/profile"
   depends_on = [module.networks]
 
-  project_name = project_name
-  remote = remote
+  project_name = var.project_name
+  remote = var.remote
 }
 */
 module "networks" {
   source = "./modules/networks"
 
-  project_name = project_name
-  remote = remote
+  project_name = var.project_name
+  remote = var.remote
 
-  networks = networks
+  networks = var.networks
 }
 
 module "instances" {  
@@ -21,8 +21,8 @@ module "instances" {
 //  depends_on = [module.networks, module.profile]
   depends_on = [module.networks]
 
-  project_name = project_name
-  remote = remote
-  instance_type = instances_type
+  project_name = var.project_name
+  remote = var.remote
+  instance_type = var.instances_type
   teams = concat(["nop"], teams)
 }

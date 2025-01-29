@@ -1,19 +1,18 @@
-variable "instance_type" {
-  type = string
-  default = "container"
-
-  validation {
-    condition = contains(["container", "virtual-machine"], var.instance_type)
-    error_message = "The value must be container or virtual-machine"
-  }
-}
-
 variable "networks" {
   description = "List of networks"
   type = list(object({
     name = string
     ipv4 = string
   }))
+}
+
+variable "network_type" {
+  type = string
+  default = "ovn"
+}
+
+locals {
+  network_type = var.project_name != "default" ? "ovn" : var.network_type
 }
 
 variable "project_name" {
@@ -24,9 +23,4 @@ variable "project_name" {
 variable "remote" {
   description = "Remote del progetto"
   type = string
-}
-
-variable "teams" {
-  description = "List of teams that will partecipate"
-  type = list(string)
 }
