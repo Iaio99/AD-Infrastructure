@@ -5,7 +5,7 @@
                         "team2",
                         "team3"
                 ],
-                "subnet_ip": {
+                "networks": {
                         "gameserver-network": "network",
                         "vulnboxes-network": "network",
                         "vpn-servers-networks": "network"
