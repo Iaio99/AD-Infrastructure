@@ -51,7 +51,7 @@
   - name: "Generate node token"
     shell: "incus cluster --force-local --quiet add {{ inventory_hostname }}"
     register: token
-    delegate_to: server_1
+    delegate_to: "{{ server_1 }}"
     when: inventory_hostname != server_1
 
   - block:
