@@ -31,7 +31,7 @@
         force_init: true
         state: present
         variables:
-          instance_type: "{{ instance_type }}"
+          instances_type: "{{ instances_type }}"
           networks: "{{ networks }}"
           remote: "{{ remote }}"
           teams: "{{ teams }}"
