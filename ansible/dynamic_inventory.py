@@ -81,9 +81,9 @@ def main():
                 "ansible_remote": remote
             }
         },
-        "localhost": {
+        "all": {
             "vars": {
-                "instance_type": instances_type,
+                "instances_type": instances_type,
                 "networks": networks,
                 "remote": remote,
                 "teams": teams,
