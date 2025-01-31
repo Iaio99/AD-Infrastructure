@@ -58,7 +58,7 @@
     - name: Wait 5s to avoid token use before valid
       ansible.builtin.wait_for:
         timeout: 5
-      delegate_to: localhost
+      delegate_to: "{{ server_1 }}"
       when: 'token.changed'
 
     - name: "Copy init file on other nodes"
