@@ -1,9 +1,6 @@
 variable "networks" {
   description = "List of networks"
-  type = list(object({
-    network_name = string
-    ipv4 = string
-  }))
+  type = map(string)
 }
 
 variable "network_type" {
