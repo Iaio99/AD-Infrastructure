@@ -71,7 +71,6 @@ def main():
         "gameserver": {
             "hosts": gameserver
             "vars": {
-                "ctf_gameserver_downloadpath": "file:///root/",
                 "ctf_gameserver_db_pass_web": "password",
                 "ctf_gameserver_db_pass_controller": "password",
                 "ctf_gameserver_db_pass_submission": "password",
