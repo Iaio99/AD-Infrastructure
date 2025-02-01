@@ -62,12 +62,12 @@
       when: 'token.changed'
 
     - name: "Copy init file on other nodes"
-      throttle: 1
       template:
         src: templates/cluster-member.yaml.j2
         dest: /tmp/init.yaml
 
     - name: "Set up cluster members"
+      throttle: 1
       shell: incus admin init --preseed < /tmp/init.yaml
       become: yes
     
