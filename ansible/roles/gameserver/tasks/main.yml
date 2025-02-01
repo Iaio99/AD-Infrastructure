@@ -51,6 +51,17 @@
   loop_control:
     loop_var: "faus_role"
 
+- name: "Remove build files"
+  file:
+    - "/tmp/ctf-gameserver"
+    - "/tmp/ctf-gameserver_1.0_all.deb"
+  state: absent
+
+- name: Delete default conf nginx
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
 - name: Upload uwsgi configuration
   template:
     src: "files/ctf-gameserver.ini"
@@ -61,20 +72,4 @@
   template:
     src: "files/ctf-gameserver.conf"
     dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
-
-- name: Delete default conf nginx
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
   notify: Restart Nginx
-
-  handlers:
-    - name: Restart Nginx
-      systemd_service:
-        name: nginx
-        state: restarted
-    
-    - name: Restart Uwsgi
-      systemd_service:
-        name: uwsgi
-        state: restarted
