@@ -37,6 +37,7 @@
   state: absent
   autoremove: yes
   purge: true
+  become: yes
   
 - name: Install Fauscteam Gameserver
   include_role:
