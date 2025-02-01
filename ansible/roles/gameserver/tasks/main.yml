@@ -10,20 +10,19 @@
         - fausecteam.ctf_gameserver_ansible.db_epilog
         - fausecteam.ctf_gameserver_ansible.controller
         - fausecteam.ctf_gameserver_ansible.submission
-        - fausecteam.ctf_gameserver_ansible.checker
         - fausecteam.ctf_gameserver_ansible.vpnstatus
       loop_control:
         loop_var: "faus_role"
 
     - name: Upload uwsgi configuration
       template:
-        src: "./ctf-gameserver.ini"
+        src: "files/ctf-gameserver.ini"
         dest: "/etc/uwsgi/apps-enabled/"
       notify: Restart Uwsgi
 
     - name: Upload nginx configuration
       template:
-        src: "./ctf-gameserver.conf"
+        src: "files/ctf-gameserver.conf"
         dest: "/etc/nginx/sites-enabled/ctf-gameserver.conf"
 
     - name: Delete default conf nginx

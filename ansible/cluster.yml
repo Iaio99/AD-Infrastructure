@@ -1,9 +1,6 @@
 - hosts: cluster_nodes
   roles:
     - ovn
-  
-- hosts: cluster_nodes
-  roles:
     - incus
   tasks:
     - block:
@@ -35,3 +32,7 @@
 - hosts: vpns
   roles:
     - vpn
+
+- hosts: gameserver
+  roles:
+    - gameserver

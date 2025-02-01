@@ -1,17 +1,17 @@
-source "incus" "faust-gameserver" {
+source "incus" "gameserver" {
   image = "images:debian/12"
-  output_image = "faust-gameserver"
-  container_name = "${local.config.incus_cluster.remote}:faust-gameserver"
+  output_image = "gameserver"
+  container_name = "${local.config.incus_cluster.remote}:gameserver"
   reuse = true
   publish_remote_name = local.config.incus_cluster.remote
 
   publish_properties =  {
-    description = "Image for the faust-gameserver"
+    description = "Image for the gameserver"
   }
 }
 
 build {
-  sources = ["source.incus.faust-gameserver"]
+  sources = ["source.incus.gameserver"]
 
   provisioner "shell" {
     inline  = [
@@ -29,14 +29,4 @@ build {
       "apt-get purge -y devscripts dpkg-dev equivs"
     ]
   }
-  provisioner "ansible" {
-    galaxy_file = "${path.root}/../files/gameserver/requirements.yml"
-    playbook_file = "${path.root}/../files/gameserver/playbook.yml"
-    inventory_file = "${path.root}/../files/gameserver/inventory"
-    extra_arguments = [
-      "--extra-vars", "ansible_incus_remote=${local.config.incus_cluster.remote}",
-      "--connection=community.general.incus"
-    ]
-  }
-  
 }
