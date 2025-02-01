@@ -22,6 +22,8 @@
     - name: Deploy images
       shell: packer build ../images/templates
 
+- hosts: localhost
+  connection: local
   roles:
     - terraform
 
@@ -33,6 +35,6 @@
   roles:
     - vpn
 
-- hosts: gameserver
+- hosts: faustgameserver
   roles:
     - gameserver
