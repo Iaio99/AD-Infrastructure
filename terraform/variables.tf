@@ -11,7 +11,7 @@ variable "instances_type" {
 variable "networks" {
   description = "List of networks"
   type = list(object({
-    name = string
+    network_name = string
     ipv4 = string
   }))
 }
