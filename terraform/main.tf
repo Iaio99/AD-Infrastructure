@@ -24,5 +24,5 @@ module "instances" {
   project_name = var.project_name
   remote = var.remote
   instance_type = var.instances_type
-  teams = concat(["nop"], teams)
+  teams = concat(["nop"], var.teams)
 }
