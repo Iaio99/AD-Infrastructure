@@ -21,7 +21,6 @@
                 },
                 "project": "deafult",
                 "instances_type": "container",
-
                 "remote": "local"
         },
 }
