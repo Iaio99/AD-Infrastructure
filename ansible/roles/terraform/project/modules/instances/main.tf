@@ -4,6 +4,11 @@ resource "incus_instance" "gameserver" {
   profiles = ["default"]
   remote = var.remote
   project = var.project_name
+  type = var.instance_type
+
+  config = {
+    "boot.autostart" = true
+  }
 
   device {
     name = "eth0"
@@ -22,12 +27,6 @@ resource "incus_instance" "gameserver" {
       connect = "tcp:10.10.0.1:80"
     }
   }
-
-  config = {
-    "boot.autostart" = true
-  }
-
-  type = var.instance_type
 }
 
 resource "incus_instance" "vulnbox" {
@@ -38,6 +37,7 @@ resource "incus_instance" "vulnbox" {
   profiles = ["default"]
   remote = var.remote
   project = var.project_name
+  type = var.instance_type
 
   config = {
     "boot.autostart" = true
@@ -55,8 +55,6 @@ resource "incus_instance" "vulnbox" {
       "ipv4.address" = "10.60.${count.index}.1"
     }
   }
-  
-  type = var.instance_type
 }
 
 resource "incus_instance" "vpn" {
@@ -67,6 +65,7 @@ resource "incus_instance" "vpn" {
   profiles = ["default"]
   remote = var.remote
   project = var.project_name
+  type = var.instance_type
 
   config = {
     "boot.autostart" = true
@@ -90,8 +89,4 @@ resource "incus_instance" "vpn" {
       connect = "udp:10.80.${count.index}.254:51820"
     }
   }
-
-  wait_for_network = false
-
-  type = var.instance_type
 }
