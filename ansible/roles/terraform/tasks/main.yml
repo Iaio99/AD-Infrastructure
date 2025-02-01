@@ -1,0 +1,12 @@
+- name: Deploy of the AD platform
+  community.general.terraform:
+    project_path: "roles/terraform/project"
+    force_init: true
+    state: present
+    complex_vars: true
+    variables:
+      instances_type: "{{ instances_type }}"
+      networks: "{{ networks }}"
+      project_name: "{{ project_name }}"
+      remote: "{{ remote }}"
+      teams: "{{ teams }}"

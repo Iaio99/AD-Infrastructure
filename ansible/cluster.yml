@@ -25,18 +25,8 @@
     - name: Deploy images
       shell: packer build ../images/templates
 
-    - name: Deploy of the AD platform
-      community.general.terraform:
-        project_path: '../terraform'
-        force_init: true
-        state: present
-        complex_vars: true
-        variables:
-          instances_type: "{{ instances_type }}"
-          networks: "{{ networks }}"
-          project_name: "{{ project_name }}"
-          remote: "{{ remote }}"
-          teams: "{{ teams }}"
+  roles:
+    - terraform
 
 - hosts: vulnboxes
   roles:
