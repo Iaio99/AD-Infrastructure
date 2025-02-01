@@ -9,8 +9,8 @@
       - python-is-python3
       - uwsgi
       - uwsgi-plugin-python3
-  state: latest
-  update_cache: yes
+    state: latest
+    update_cache: yes
   become: yes
 
 - name: Clone faust-gamserver repository
@@ -34,9 +34,9 @@
       - devscripts
       - dpkg-dev
       - equivs
-  state: absent
-  autoremove: yes
-  purge: true
+    state: absent
+    autoremove: yes
+    purge: true
   become: yes
   
 - name: Install Fauscteam Gameserver
