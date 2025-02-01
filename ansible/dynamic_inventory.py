@@ -85,6 +85,7 @@ def main():
             "vars": {
                 "instances_type": instances_type,
                 "networks": networks,
+                "project_name": "default",
                 "remote": remote,
                 "teams": teams,
                 "ansible_connection": "local"
