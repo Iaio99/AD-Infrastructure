@@ -21,7 +21,7 @@
   tasks:
     - name: Init packer
       shell: packer init ../images/templates
-    
+
     - name: Deploy images
       shell: packer build ../images/templates
 
@@ -30,9 +30,11 @@
         project_path: '../terraform'
         force_init: true
         state: present
+        complex_vars: true
         variables:
           instances_type: "{{ instances_type }}"
           networks: "{{ networks }}"
+          project_name: "{{ project_name }}"
           remote: "{{ remote }}"
           teams: "{{ teams }}"
 
