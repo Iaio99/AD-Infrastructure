@@ -10,3 +10,19 @@
       project_name: "{{ project_name }}"
       remote: "{{ remote }}"
       teams: "{{ teams }}"
+
+- name: Create network peer between gameserver-network and vulnboxes-network
+  shell:
+    cmd: "incus network peer create {{ remote }}:gameserver-network peer1 {{ remote }}:vulnboxes-network"
+
+- name: Create network peer between vulnboxes-network and gameserver-network
+  shell:
+    cmd: "incus network peer create {{ remote }}:vulnboxes-network peer1 {{ remote }}:gameserver-network"
+
+- name: Create network peer between vulnboxes-network and vpn-servers-network
+  shell:
+    cmd: "incus network peer create {{ remote }}:vulnboxes-network peer2 {{ remote }}:vpn-servers-network"
+
+- name: Create network peer between vpn-servers-network and vulnboxes-network
+  shell:
+    cmd: "incus network peer create {{ remote }}:vpn-servers-network peer2 {{ remote }}:vulnboxes-network"
