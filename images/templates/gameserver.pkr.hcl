@@ -19,7 +19,7 @@ build {
       "apt-get update -y",
       "apt-get install -y apt-utils",
       "apt-get upgrade -y",
-      "apt-get install -y bash-completion openssh-server sudo"
+      "apt-get install -y bash-completion openssh-server python3 python-is-python3 sudo"
     ]
   }
 }

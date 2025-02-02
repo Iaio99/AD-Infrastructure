@@ -5,8 +5,6 @@
       - dpkg-dev
       - equivars
       - nginx
-      - python3
-      - python-is-python3
       - uwsgi
       - uwsgi-plugin-python3
     state: latest
