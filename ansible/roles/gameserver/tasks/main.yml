@@ -3,7 +3,7 @@
     name:
       - devscripts
       - dpkg-dev
-      - equivars
+      - equivs
       - nginx
       - uwsgi
       - uwsgi-plugin-python3
