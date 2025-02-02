@@ -7,11 +7,20 @@ module "profile" {
   remote = var.remote
 }
 */
+
+provider "incus" {
+  remote {
+    name = var.remote
+    scheme = "https"
+    address = "192.168.122.2"
+    default = true
+  }
+}
+
 module "networks" {
   source = "./modules/networks"
 
   project_name = var.project_name
-  remote = var.remote
 
   networks = var.networks
 }
@@ -22,7 +31,6 @@ module "instances" {
   depends_on = [module.networks]
 
   project_name = var.project_name
-  remote = var.remote
   instance_type = var.instances_type
   teams = concat(["nop"], var.teams)
 }

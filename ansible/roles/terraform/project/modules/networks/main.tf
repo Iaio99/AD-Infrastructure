@@ -1,6 +1,5 @@
 resource "incus_network" "gameserver-network" {
   name = "gameserver-network"
-  remote = var.remote
   project = var.project_name
   type = var.network_type
 
@@ -14,7 +13,6 @@ resource "incus_network" "gameserver-network" {
 
 resource "incus_network" "vulnboxes-network" {
   name = "vulnboxes-network"
-  remote = var.remote
   project = var.project_name
   type = var.network_type
 
@@ -28,7 +26,6 @@ resource "incus_network" "vulnboxes-network" {
 
 resource "incus_network" "vpn-servers-network" {
   name = "vpn-servers-network"
-  remote = var.remote
   project = var.project_name
   type = var.network_type
 
