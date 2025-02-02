@@ -1,4 +1,5 @@
 - hosts: cluster_nodes
+  any_errors_fatal: true
   roles:
     - ovn
     - incus
