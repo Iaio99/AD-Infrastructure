@@ -88,15 +88,15 @@ def main():
                 "ctf_gameserver_submission_listen_ports": [8080],
                 "ctf_gameserver_db_user_vpnstatus": "gameserver_vpnstatus",
                 "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", cluster_nodes[0]],
-                "ansible_remote": remote,
-                "ansible_connection": "community.general.incus"
+                "ansible_connection": "community.general.incus",
+                "ansible_incus_remote": remote
             }
         },
         "vulnboxes": {
             "hosts": vulnboxes,
             "vars": {
-                "ansible_remote": remote,
-                "ansible_connection": "community.general.incus"
+                "ansible_connection": "community.general.incus",
+                "ansible_incus_remote": remote
             }
         },
 
@@ -106,7 +106,7 @@ def main():
                 "endpoint_address": cluster_address,
                 "vpn_players": player_number,
                 "ansible_connection": "community.general.incus",
-                "ansible_remote": remote
+                "ansible_incus_remote": remote,
             }
         },
         "all": {
