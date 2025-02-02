@@ -1,0 +1,40 @@
+- hosts: cluster_nodes
+  roles:
+    - ovn
+    - incus
+  tasks:
+    - block:
+      - name: "Set ovn-northd-nb-db"
+        set_fact:
+          ovn_northd_nb_db: tcp:{{ server_1 }}:6641,tcp:{{ server_2 }}:6641,tcp:{{ server_3 }}:6641
+
+      - name: "Make ovn communicate with incus"
+        shell: "incus config set network.ovn.northbound_connection {{ ovn_northd_nb_db }}"
+      
+      when: ansible_play_hosts | length > 2 and inventory_hostname == server_1
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Init packer
+      shell: packer init ../images/templates
+
+    - name: Deploy images
+      shell: packer build ../images/templates
+
+- hosts: localhost
+  connection: local
+  roles:
+    - terraform
+
+- hosts: vulnboxes
+  roles:
+    - vulnbox
+
+- hosts: vpns
+  roles:
+    - vpn
+
+- hosts: faustgameserver
+  roles:
+    - gameserver

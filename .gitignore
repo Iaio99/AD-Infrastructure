@@ -43,3 +43,4 @@ configs.json
 images/files/services/*
 !**/.gitkeep
 ansible/inventory.ini
+ansible/cluster.yml
