@@ -11,19 +11,26 @@
       project_name: "{{ project_name }}"
       remote: "{{ remote }}"
       teams: "{{ teams }}"
+  run_once: true
+  delegate_to: localhost
+  connection: local
 
 - name: Create network peer between gameserver-network and vulnboxes-network
   shell:
-    cmd: "incus network peer create {{ remote }}:gameserver-network peer1 {{ remote }}:vulnboxes-network"
+    cmd: "incus network peer create gameserver-network peer1 vulnboxes-network"
+  run_once: true
 
 - name: Create network peer between vulnboxes-network and gameserver-network
   shell:
-    cmd: "incus network peer create {{ remote }}:vulnboxes-network peer1 {{ remote }}:gameserver-network"
+    cmd: "incus network peer create vulnboxes-network peer1 gameserver-network"
+  run_once: true
 
 - name: Create network peer between vulnboxes-network and vpn-servers-network
   shell:
-    cmd: "incus network peer create {{ remote }}:vulnboxes-network peer2 {{ remote }}:vpn-servers-network"
+    cmd: "incus network peer create vulnboxes-network peer2 vpn-servers-network"
+  run_once: true
 
 - name: Create network peer between vpn-servers-network and vulnboxes-network
   shell:
-    cmd: "incus network peer create {{ remote }}:vpn-servers-network peer2 {{ remote }}:vulnboxes-network"
+    cmd: "incus network peer create vpn-servers-network peer2 vulnboxes-network"
+  run_once: true
