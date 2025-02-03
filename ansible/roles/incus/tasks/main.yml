@@ -53,6 +53,7 @@
     register: token
     delegate_to: "{{ server_1 }}"
     when: inventory_hostname != server_1
+    become: yes
 
   - block:
     - name: Wait 5s to avoid token use before valid
