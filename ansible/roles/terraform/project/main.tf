@@ -1,3 +1,12 @@
+provider "incus" {
+  remote {
+    name = var.remote
+    scheme = "https"
+    address = var.cluster_address
+    default = true
+  }
+}
+
 /*
 module "profile" {
   source = "./modules/profile"
@@ -7,15 +16,6 @@ module "profile" {
   remote = var.remote
 }
 */
-
-provider "incus" {
-  remote {
-    name = var.remote
-    scheme = "https"
-    address = "192.168.122.2"
-    default = true
-  }
-}
 
 module "networks" {
   source = "./modules/networks"

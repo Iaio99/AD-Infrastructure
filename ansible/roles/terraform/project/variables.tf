@@ -1,3 +1,8 @@
+variable "cluster_address" {
+  description = "Public address of the cluster"
+  type = string
+}
+
 variable "instances_type" {
   type = string
   default = "container"

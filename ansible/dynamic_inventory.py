@@ -111,6 +111,7 @@ def main():
         },
         "all": {
             "vars": {
+                "cluster_address": cluster_address,
                 "instances_type": instances_type,
                 "networks": networks,
                 "project_name": "default",
