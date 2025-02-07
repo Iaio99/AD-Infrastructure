@@ -10,7 +10,8 @@
                         "vulnboxes-network": "network",
                         "vpn-servers-networks": "network"
                 },
-                "player_number": 6
+                "player_number": 6,
+                "public_ip": "0.0.0.0"
         },
         "incus_cluster": {
                 "ansible_user": "user",
@@ -19,7 +20,6 @@
                         "node2": "ip_node2",
                         "node3": "ip_node3"
                 },
-                "project": "deafult",
                 "instances_type": "container",
                 "remote": "local"
         },

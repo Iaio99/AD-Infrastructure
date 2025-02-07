@@ -8,6 +8,7 @@ def main():
         configs = json.load(f)
         teams = configs["ad_platform"]["teams"]
         player_number = configs["ad_platform"]["player_number"]
+        public_ip = configs["ad_platform"]["public_ip"]
         nodes = configs["incus_cluster"]["nodes"]
         remote = configs["incus_cluster"]["remote"]
         networks = configs["ad_platform"]["networks"]
@@ -87,7 +88,7 @@ def main():
                 "ctf_gameserver_submission_listen_host": "0.0.0.0",
                 "ctf_gameserver_submission_listen_ports": [8080],
                 "ctf_gameserver_db_user_vpnstatus": "gameserver_vpnstatus",
-                "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", cluster_nodes[0]],
+                "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", public_ip],
                 "ansible_connection": "community.general.incus",
                 "ansible_incus_remote": remote
             }
@@ -103,7 +104,7 @@ def main():
         "vpns": {
             "hosts": vpns,
             "vars": {
-                "endpoint_address": cluster_address,
+                "endpoint_address": public_ip,
                 "vpn_players": player_number,
                 "ansible_connection": "community.general.incus",
                 "ansible_incus_remote": remote,
@@ -114,7 +115,6 @@ def main():
                 "cluster_address": cluster_address,
                 "instances_type": instances_type,
                 "networks": networks,
-                "project_name": "default",
                 "remote": remote,
                 "teams": teams,
                 "ansible_connection": "local"
