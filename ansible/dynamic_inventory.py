@@ -57,9 +57,7 @@ def load_configs(config_file):
 
         return variables
 
-def main():
-    variables = load_configs('../configs.json')
-
+def generate_inventory(variables):
     vulnboxes = ["nop-vulnbox"]
     vpns = []
     cluster_nodes = []
@@ -167,6 +165,15 @@ def main():
 
     inventory.update(inventory_cluster)
     print(json.dumps(inventory, indent=2))
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: sys.argv[0] [path_config_file]")
+        sys.exit(-1)
+    
+    variables = load_configs(sys.argv[1])
+    generate_inventory(variables)
 
 if __name__ == '__main__':
     main()
