@@ -11,8 +11,3 @@ variable "network_type" {
 locals {
   network_type = var.project_name != "default" ? "ovn" : var.network_type
 }
-
-variable "project_name" {
-  description = "Nome del progetto"
-  type = string
-}

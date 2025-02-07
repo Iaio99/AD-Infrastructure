@@ -1,8 +1,3 @@
-variable "project_name" {
-  description = "Nome del progetto ricevuto dal modulo root"
-  type        = string
-}
-
 variable "teams" {
   description = "List of teams that will partecipate"
   type = list(string)
