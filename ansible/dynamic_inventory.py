@@ -1,43 +1,86 @@
 #!/usr/bin/env python
 
+import ipaddress
 import json
 import sys
 
-def main():
-    with open('../configs.json', 'r') as f:
+
+def load_configs(config_file):
+    with open(config_file, 'r') as f:
         configs = json.load(f)
-        teams = configs["ad_platform"]["teams"]
-        player_number = configs["ad_platform"]["player_number"]
-        public_ip = configs["ad_platform"]["public_ip"]
-        nodes = configs["incus_cluster"]["nodes"]
-        remote = configs["incus_cluster"]["remote"]
-        networks = configs["ad_platform"]["networks"]
-        ansible_user = configs["incus_cluster"]["ansible_user"]
-        instances_type = configs["incus_cluster"]["instances_type"]
+        
+        variables = dict()
+
+        variables["teams"] = configs["ad_platform"]["teams"]
+        variables["player_number"] = configs["ad_platform"]["player_number"]
+
+        if type(variables["player_number"]) is not int or variables["player_number"] < 2:
+            raise ValueError("The value of 'player_number' must be an integer greater then 1")
+
+        variables["public_ip"] = configs["ad_platform"]["public_ip"]
+        
+        try:
+            ipaddress.ip_address(variables["public_ip"])
+        except ValueError:
+            raise ValueError("The value of public_ip must be a valid IPv4 address")
+        
+        variables["nodes"] = configs["incus_cluster"]["nodes"]
+
+        try:
+            if len(variables["nodes"]) == 2:
+                raise ValueError("Can't have a number of nodes equal to 2")
+            for n in variables["nodes"].values():
+                try:
+                    ipaddress.ip_address(n)
+                except ValueError:
+                    raise ValueError("The value of 'nodes' must be a list of valid IPv4 address")
+        except ValueError:
+            raise ValueError("The value of 'nodes' must be a list of valid IPv4 address")
+
+        variables["remote"] = configs["incus_cluster"]["remote"]
+        
+        variables["networks"] = configs["ad_platform"]["networks"]
+
+        try:
+            ipaddress.ip_network(variables["networks"]["gameserver-network"], False)
+            ipaddress.ip_network(variables["networks"]["vulnboxes-network"], False)
+            ipaddress.ip_network(variables["networks"]["vpn-servers-network"], False)
+        except ValueError:
+            raise ValueError("The value of each network must be a valid address in CIDR notation")
+
+        variables["ansible_user"] = configs["incus_cluster"]["ansible_user"]
+
+        variables["instances_type"] = configs["incus_cluster"]["instances_type"]
+
+        if variables["instances_type"] != "virtual-machine" and variables["instances_type"] != "container":
+            raise ValueError("The value of 'instance_type' must be 'virtual-machine' or 'container'")
+
+        return variables
+
+def main():
+    variables = load_configs('../configs.json')
 
     vulnboxes = ["nop-vulnbox"]
     vpns = []
     cluster_nodes = []
     nodes_names = dict()
 
-    for n in nodes.keys():
-        cluster_nodes.append(nodes[n])
-        nodes_names[nodes[n]] = n
+    for n in variables["nodes"].keys():
+        cluster_nodes.append(variables["nodes"][n])
+        nodes_names[variables["nodes"][n]] = n
 
     cluster_address = cluster_nodes[0]
 
-    if len(nodes) == 2:
-        raise Exception("Cluster dimension cannot be 2")
-
-    if len(nodes) == 1:
+    if len(variables["nodes"]) == 1:
         inventory_cluster = {
             "cluster_nodes": {
                 "hosts": cluster_nodes,
                 "vars": {
                     "server_1": cluster_nodes[0],
-                    "remote": remote,
+                    "remote": variables["remote"],
                     "ansible_connection": "ssh",
-                    "ansible_user": ansible_user
+                    "networks": variables["networks"],
+                    "ansible_user": variables["ansible_user"]
                 }
             }
         }
@@ -48,23 +91,23 @@ def main():
                 "hosts": cluster_nodes,
                 "vars": {
                     "nodes_names": nodes_names,
-                    "remote": remote,
+                    "remote": variables["remote"],
                     "server_1": cluster_nodes[0],
                     "server_2": cluster_nodes[1],
                     "server_3": cluster_nodes[2],
-                    "networks": networks,
+                    "networks": variables["networks"],
                     "ansible_connection": "ssh",
-                    "ansible_user": ansible_user
+                    "ansible_user": variables["ansible_user"]
                 }
             }
         }
 
 
-    for t in teams:
+    for t in variables["teams"]:
         vulnboxes.append(t + "-vulnbox")
         vpns.append(t + "-vpn")
 
-    ip_pattern = networks["vulnboxes-network"].split(".")
+    ip_pattern = variables["networks"]["vulnboxes-network"].split(".")
     ip_pattern[2] = "%"
     ip_pattern[3] = "1"
     ip_pattern = ".".join(ip_pattern)
@@ -88,35 +131,35 @@ def main():
                 "ctf_gameserver_submission_listen_host": "0.0.0.0",
                 "ctf_gameserver_submission_listen_ports": [8080],
                 "ctf_gameserver_db_user_vpnstatus": "gameserver_vpnstatus",
-                "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", public_ip],
+                "ctf_gameserver_web_allowed_hosts": ["{{ ansible_fqdn }}", variables["player_number"]],
                 "ansible_connection": "community.general.incus",
-                "ansible_incus_remote": remote
+                "ansible_incus_remote": variables["remote"]
             }
         },
         "vulnboxes": {
             "hosts": vulnboxes,
             "vars": {
                 "ansible_connection": "community.general.incus",
-                "ansible_incus_remote": remote
+                "ansible_incus_remote": variables["remote"]
             }
         },
 
         "vpns": {
             "hosts": vpns,
             "vars": {
-                "endpoint_address": public_ip,
-                "vpn_players": player_number,
+                "endpoint_address": variables["public_ip"],
+                "vpn_players": variables["player_number"],
                 "ansible_connection": "community.general.incus",
-                "ansible_incus_remote": remote,
+                "ansible_incus_remote": variables["remote"],
             }
         },
         "all": {
             "vars": {
                 "cluster_address": cluster_address,
-                "instances_type": instances_type,
-                "networks": networks,
-                "remote": remote,
-                "teams": teams,
+                "instances_type": variables["instances_type"],
+                "networks": variables["networks"],
+                "remote": variables["remote"],
+                "teams": variables["teams"],
                 "ansible_connection": "local"
             }
         }
