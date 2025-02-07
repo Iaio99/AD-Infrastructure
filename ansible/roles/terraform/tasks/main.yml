@@ -8,7 +8,6 @@
       cluster_address: "{{ cluster_address }}"
       instances_type: "{{ instances_type }}"
       networks: "{{ networks }}"
-      project_name: "{{ project_name }}"
       remote: "{{ remote }}"
       teams: "{{ teams }}"
   run_once: true
